@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Signal — regain control of your attention</title>
+<meta name="description" content="Signal: an AI-native notification system for an org Admin Center. Desktop triage console + mobile break-through flow." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12232E; --ink2:#566773; --ink3:#8A949C;
+    --bg:#F6F8F9; --card:#FFFFFF; --paper2:#F3F7F9; --line:#E1E8EC;
+    --brand:#13B5EA; --primary:#0A7DA6; --accent:#E6F7FD;
+    --critical:#E5484D; --amber:#E08600; --sage:#1F9D74; --indigo:#5B6BD6;
+    --r:14px; --shadow:0 1px 2px rgba(18,35,46,.05),0 10px 28px -18px rgba(18,35,46,.18);
+    --head:'Figtree',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box} html,body{margin:0;height:100%}
+  body{font-family:var(--body);font-size:14px;line-height:1.45;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--head);font-weight:700;letter-spacing:-.02em;margin:0}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:8px}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  /* ---------- app chrome ---------- */
+  .topnav{display:flex;align-items:center;gap:14px;padding:12px 22px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+  .logo{display:flex;align-items:center;gap:8px;font-family:var(--head);font-weight:800;font-size:16px}
+  .logo .mark{display:grid;place-items:center;height:26px;width:26px;border-radius:8px;background:var(--brand)}
+  .viewswitch{display:flex;background:var(--paper2);border:1px solid var(--line);border-radius:11px;padding:3px;margin-left:auto}
+  .viewswitch button{padding:7px 14px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--ink2)}
+  .viewswitch button.sel{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(18,35,46,.08)}
+  .scenario{font-size:11.5px;color:var(--ink3)}
+
+  .stage{max-width:1180px;margin:0 auto;padding:22px}
+
+  /* ---------- desktop console ---------- */
+  .console{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+  .conshead{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line)}
+  .conshead .title{font-family:var(--head);font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+  .tabs{display:flex;gap:4px;margin-left:6px}
+  .tabs button{padding:6px 11px;border-radius:9px;font-size:12px;font-weight:600;color:var(--ink2)}
+  .tabs button.sel{color:var(--primary);background:var(--accent);border:1px solid rgba(19,181,234,.35)}
+  .tabs button .n{font-size:10.5px;background:var(--critical);color:#fff;border-radius:12px;padding:0 6px;margin-left:5px;font-weight:600}
+  .ctrbtn{margin-left:auto;display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:12px;font-weight:600;background:#fff}
+  .ctrbtn:hover{background:var(--paper2)}
+
+  .split{display:grid;grid-template-columns:300px 1fr;min-height:560px}
+  .rail{border-right:1px solid var(--line);padding:14px;overflow:auto}
+  .tierhead{display:flex;align-items:center;gap:8px;margin:4px 0 8px}
+  .tierhead .bar{width:3.5px;height:14px;border-radius:3px}
+  .tierhead b{font-size:12.5px}
+  .tierhead .n{font-size:11px;color:var(--ink3)}
+  .item{width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff;transition:border-color .15s, opacity .3s, transform .3s}
+  .item:hover{border-color:var(--ink3)}
+  .item.sel{border:1.5px solid var(--brand);background:var(--accent)}
+  .item .meta{display:flex;align-items:center;gap:6px;font-size:10.5px}
+  .item .meta .dot{height:7px;width:7px;border-radius:50%}
+  .item h4{font-size:12.5px;margin-top:5px;line-height:1.3}
+  .item.done{opacity:.55}
+  .item .donetag{font-size:10px;color:var(--sage);font-weight:600}
+  .ghostgrp{margin-top:14px}
+  .ghostrow{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--paper2);font-size:11.5px;color:var(--ink2)}
+
+  .detail{padding:18px 22px;display:flex;flex-direction:column;min-width:0}
+  .dmeta{display:flex;align-items:center;gap:8px;font-size:11.5px}
+  .dmeta .dot{height:8px;width:8px;border-radius:50%}
+  .dmeta .sev{font-weight:600}
+  .dmeta .ai{margin-left:auto;font-size:10px;font-weight:700;color:var(--primary);background:var(--accent);border-radius:6px;padding:2px 7px;letter-spacing:.04em}
+  .detail h2{font-size:20px;margin-top:8px}
+  .tiles{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:10px;margin-top:14px}
+  .tile{background:var(--paper2);border-radius:12px;padding:12px}
+  .tile .lab{font-size:10.5px;color:var(--ink2);line-height:1.3}
+  .tile .big{font-size:22px;font-weight:700;font-family:var(--head);margin-top:4px}
+  .tile .sub{font-size:10px;color:var(--ink3)}
+  .tile.donut{display:flex;align-items:center;gap:12px}
+  .entities{display:grid;gap:8px}
+  .ent{background:var(--paper2);border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:9px}
+  .ent .ic{height:24px;width:24px;border-radius:7px;display:grid;place-items:center;font-size:11px;color:#fff;flex:none}
+  .ent b{font-size:11.5px;display:block;line-height:1.1}
+  .ent small{font-size:9.5px;color:var(--ink3)}
+  .why{margin-top:14px;padding-left:12px;border-left:2px solid var(--line);font-size:12.5px;color:var(--ink2);line-height:1.5}
+  .why .k{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--ink3);text-transform:uppercase;margin-right:6px}
+  .why b{color:var(--ink)}
+  .acts{display:flex;align-items:center;gap:12px;margin-top:16px}
+  .btn{font-size:13px;font-weight:600;padding:9px 16px;border-radius:10px;transition:filter .15s}
+  .btn.primary{background:var(--ink);color:#fff}
+  .btn.danger{background:var(--critical);color:#fff}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.quiet{color:var(--ink2);font-weight:500;padding:9px 6px}
+  .btn.quiet:hover{color:var(--ink)}
+  .confirmed{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 14px;border:1px solid rgba(31,157,116,.35);border-radius:12px;background:rgba(31,157,116,.06)}
+  .confirmed .ck{height:26px;width:26px;border-radius:50%;background:var(--sage);color:#fff;display:grid;place-items:center;font-size:13px}
+  .confirmed b{color:var(--sage);font-size:13.5px}
+  .confirmed small{color:var(--ink2);font-size:11.5px;display:block}
+  .confirmed .undo{margin-left:auto;color:var(--primary);font-weight:600;font-size:12.5px}
+  .dfoot{margin-top:auto;padding-top:14px}
+  .askbar{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:9px 13px;color:var(--ink3);font-size:12.5px;background:#fff}
+  .askbar .send{margin-left:auto;display:flex;gap:10px;align-items:center;font-size:13px}
+
+  /* activity log */
+  .logwrap{padding:18px 22px}
+  .logtable{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .logrow{display:grid;grid-template-columns:64px 1.35fr 1.5fr 1fr 84px;gap:8px;align-items:center;padding:11px 14px;border-top:1px solid var(--line);font-size:12.5px}
+  .logrow:first-child{border-top:none;background:var(--paper2);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3)}
+  .logrow .act{display:flex;align-items:center;gap:8px;font-weight:500}
+  .logrow .act .dot{height:7px;width:7px;border-radius:50%;flex:none}
+  .logrow .why2{color:var(--ink2);font-size:11.5px}
+  .logrow .undo{color:var(--primary);font-weight:600;font-size:12px;text-align:left}
+  .logrow .na{color:var(--ink3);font-size:12px}
+
+  /* controls drawer */
+  .scrim{position:fixed;inset:0;background:rgba(18,35,46,.32);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+  .scrim.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:372px;max-width:92vw;background:#fff;border-left:1px solid var(--line);transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:50;display:flex;flex-direction:column}
+  .drawer.open{transform:none}
+  .drawer header{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
+  .drawer header .kick{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary)}
+  .drawer header h2{font-size:19px;margin-top:3px}
+  .drawer header p{margin:6px 0 0;font-size:11.5px;color:var(--ink2)}
+  .drawer .x{height:30px;width:30px;border-radius:8px;display:grid;place-items:center;color:var(--ink2)}
+  .drawer .x:hover{background:var(--paper2)}
+  .dbody{padding:18px 20px;overflow:auto;display:flex;flex-direction:column;gap:20px}
+  .field label{font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px}
+  .aiset{font-size:9.5px;font-weight:700;color:var(--primary);background:var(--accent);border-radius:5px;padding:1.5px 6px}
+  .field .hint{font-size:11px;color:var(--ink3);margin-top:3px}
+  .seg{display:flex;gap:6px;margin-top:9px}
+  .seg button{flex:1;padding:8px;border:1px solid var(--line);border-radius:10px;font-size:11.5px;font-weight:500;color:var(--ink2);background:#fff}
+  .seg button.sel{background:var(--accent);color:var(--primary);border-color:rgba(19,181,234,.4);font-weight:600}
+  .swrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+  .swrow:first-child{border-top:none}
+  .swrow .lbl{font-size:13px;font-weight:500}
+  .swrow .sub{font-size:10.5px;color:var(--ink3)}
+  .swrow .sub.lock{color:var(--critical);font-weight:600;text-transform:uppercase;font-size:9.5px;letter-spacing:.05em}
+  .sw{width:38px;height:22px;border-radius:20px;background:var(--line);position:relative;transition:background .2s;flex:none;margin-left:auto}
+  .sw::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .2s}
+  .sw.on{background:var(--primary)} .sw.on::after{left:18px}
+  .sw.lock{background:var(--paper2);border:1px solid var(--line);cursor:not-allowed} .sw.lock::after{background:var(--ink3)}
+  .nl{background:var(--accent);border-radius:11px;padding:10px 12px;font-size:11.5px}
+  .nl b{color:var(--primary)}
+
+  /* ---------- mobile flow ---------- */
+  .mstage{display:grid;grid-template-columns:340px 1fr;gap:34px;align-items:center;max-width:920px;margin:0 auto}
+  .phone{width:318px;border-radius:34px;border:9px solid var(--ink);background:#fff;overflow:hidden;box-shadow:var(--shadow);margin:0 auto}
+  .statusbar{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:10.5px;font-weight:600}
+  .screen{min-height:520px;padding:12px;display:flex;flex-direction:column;position:relative}
+  .lock{background:linear-gradient(170deg,#EAF4F8,#F6F8F9);flex:1;border-radius:16px;display:flex;flex-direction:column;padding:12px}
+  .lock .clock{text-align:center;margin-top:26px}
+  .lock .clock .t{font-family:var(--head);font-weight:800;font-size:44px;letter-spacing:-.02em}
+  .lock .clock .d{font-size:12px;color:var(--ink2)}
+  .push{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:11px;margin-top:26px;text-align:left;width:100%}
+  .push .ph{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700}
+  .push .ph .mk{height:16px;width:16px;border-radius:5px;background:var(--brand);display:grid;place-items:center}
+  .push .ph .tm{margin-left:auto;color:var(--ink3);font-weight:500}
+  .push h4{font-size:12.5px;margin-top:6px}
+  .push p{margin:3px 0 0;font-size:11px;color:var(--ink2);line-height:1.4}
+  .push .pa{display:flex;gap:7px;margin-top:9px}
+  .push .pa button{flex:1;font-size:11px;font-weight:600;padding:7px;border-radius:9px}
+  .push .pa .go{background:var(--critical);color:#fff}
+  .push .pa .gh{border:1px solid var(--line)}
+  .cardstage{flex:1;display:flex;flex-direction:column}
+  .gcard{border-radius:18px;padding:14px;color:#fff;background:linear-gradient(160deg,#0C6E7A,#13B5EA);margin-top:8px}
+  .gcard .t1{font-size:13.5px;font-weight:700;text-align:center}
+  .gcard .t2{font-size:10px;opacity:.85;text-align:center;margin-top:2px}
+  .chartbox{background:rgba(255,255,255,.13);border-radius:12px;padding:10px;margin-top:11px}
+  .chartbox .ch{display:flex;justify-content:space-between;font-size:9px;opacity:.9}
+  .cd{margin-top:10px}
+  .cd .row{display:flex;justify-content:space-between;font-size:9px;opacity:.85}
+  .cd .track{height:7px;border-radius:6px;background:rgba(255,255,255,.28);margin-top:4px;overflow:hidden}
+  .cd .fill{display:block;height:100%;width:28%;background:#fff;border-radius:6px}
+  .cd p{font-size:10px;text-align:center;margin:6px 0 0;opacity:.92}
+  .gact{display:flex;align-items:center;gap:8px;margin-top:12px}
+  .gact .back{height:32px;width:32px;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;display:grid;place-items:center;flex:none}
+  .gact .cf{flex:1;background:#fff;color:var(--primary);font-weight:700;font-size:13px;padding:9px;border-radius:22px}
+  .msuccess{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+  .msuccess .ck{height:54px;width:54px;border-radius:50%;background:var(--sage);color:#fff;display:grid;place-items:center;font-size:24px;margin-bottom:14px}
+  .msuccess h3{font-size:17px}
+  .msuccess p{font-size:12px;color:var(--ink2);margin:6px 0 0;line-height:1.5}
+  .msuccess .undo{margin-top:14px;color:var(--primary);font-weight:600;font-size:13px}
+  .steps{display:flex;flex-direction:column;gap:14px}
+  .steps .s{display:flex;gap:12px;align-items:flex-start;opacity:.45;transition:opacity .25s}
+  .steps .s.on{opacity:1}
+  .steps .num{height:26px;width:26px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+  .steps .s.on .num{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .steps b{font-size:14px;font-family:var(--head)}
+  .steps p{margin:3px 0 0;font-size:12.5px;color:var(--ink2);line-height:1.5}
+  .reset{margin-top:18px;font-size:12.5px;font-weight:600;color:var(--primary)}
+
+  /* toast */
+  .toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,16px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;font-size:12.5px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:60;display:flex;align-items:center;gap:10px}
+  .toast.show{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+  .toast .u{color:#7FD8F5;font-weight:700;cursor:pointer}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .hidden{display:none!important}
+  @media (max-width:900px){ .split{grid-template-columns:1fr} .rail{border-right:none;border-bottom:1px solid var(--line)} .mstage{grid-template-columns:1fr} .tiles{grid-template-columns:1fr 1fr} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+</style>
+</head>
+<body>
+  <nav class="topnav">
+    <span class="logo"><span class="mark"><svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>Signal</span>
+    <span class="scenario">Meridian Studio · Mara, owner-admin</span>
+    <div class="viewswitch" role="tablist" aria-label="Prototype view">
+      <button id="vDesk" class="sel" role="tab" aria-selected="true">💻 Desktop console</button>
+      <button id="vMob" role="tab" aria-selected="false">📱 Mobile flow</button>
+    </div>
+  </nav>
+
+  <!-- ================= DESKTOP ================= -->
+  <main class="stage" id="deskView">
+    <div class="console">
+      <div class="conshead">
+        <span class="title"><span class="mark" style="display:grid;place-items:center;height:22px;width:22px;border-radius:7px;background:var(--brand)"><svg width="11" height="11" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>Administration</span>
+        <div class="tabs" role="tablist" aria-label="Console sections">
+          <button id="tabFeed" class="sel">Needs you now<span class="n" id="needCount">3</span></button>
+          <button id="tabLog">Activity log</button>
+        </div>
+        <button class="ctrbtn" id="openCtl" aria-haspopup="dialog">⚙ What may interrupt me</button>
+      </div>
+
+      <!-- feed -->
+      <div class="split" id="feedPane">
+        <aside class="rail" aria-label="Notification list">
+          <div class="tierhead"><span class="bar" style="background:var(--critical)"></span><b>Needs you now</b><span class="n tnum" id="railCount">3</span></div>
+          <div id="railItems"></div>
+          <div class="ghostgrp">
+            <div class="tierhead"><span class="bar" style="background:var(--sage)"></span><b style="color:var(--ink2)">Handled for you</b><span class="n tnum" id="handledCount">6</span></div>
+            <div class="ghostrow" id="handledPreview">6 low-risk joins auto-approved · 12 sign-ins deduped…</div>
+            <div class="tierhead" style="margin-top:12px"><span class="bar" style="background:var(--indigo)"></span><b style="color:var(--ink2)">Worth knowing</b><span class="n tnum" id="worthCount">7</span></div>
+            <div class="ghostrow">Seat usage 78% · maintenance Sunday · audit export…</div>
+          </div>
+        </aside>
+        <section class="detail" id="detailPane" aria-live="off"></section>
+      </div>
+
+      <!-- log -->
+      <div class="logwrap hidden" id="logPane">
+        <div class="logtable" id="logTable">
+          <div class="logrow"><span>Time</span><span>What Signal did</span><span>Why</span><span>Affected</span><span>Action</span></div>
+        </div>
+        <p style="font-size:11.5px;color:var(--ink3);margin-top:10px">Every AI decision is recorded, explained, and reversible — this is the trust surface.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= MOBILE ================= -->
+  <main class="stage hidden" id="mobView">
+    <div class="mstage">
+      <div class="phone">
+        <div class="statusbar"><span>10:02</span><span>✦ Signal</span></div>
+        <div class="screen" id="mScreen"></div>
+      </div>
+      <div>
+        <h2 style="font-size:24px">The ~90% away-moment</h2>
+        <p style="font-size:13px;color:var(--ink2);margin:8px 0 18px;max-width:38ch">Only a Critical breaks through. Mara decides from the lock screen — with the data — without opening the app.</p>
+        <div class="steps" id="mSteps">
+          <div class="s on" data-s="0"><span class="num">1</span><div><b>Glance</b><p>One line on the lock screen: “Payment failed.” Tap <i>Review &amp; fix</i>.</p></div></div>
+          <div class="s" data-s="1"><span class="num">2</span><div><b>The data</b><p>The card unfolds: usage trend vs the suspension line + 3-day countdown.</p></div></div>
+          <div class="s" data-s="2"><span class="num">3</span><div><b>Confirm</b><p>One tap retries with the card on file. Reversible, logged.</p></div></div>
+        </div>
+        <button class="reset" id="mReset">↺ Restart the flow</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- controls drawer -->
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+    <header>
+      <div>
+        <span class="kick">You govern the rules</span>
+        <h2 id="dTitle">What may interrupt me</h2>
+        <p>Signal set these from your role &amp; history — <b>adjust only if you disagree.</b></p>
+      </div>
+      <button class="x" id="closeCtl" aria-label="Close">✕</button>
+    </header>
+    <div class="dbody">
+      <div class="field">
+        <label>Interrupt threshold <span class="aiset">AI-set</span></label>
+        <p class="hint">Only events at or above this severity reach “Needs you now.”</p>
+        <div class="seg" id="thSeg">
+          <button data-th="medium">Medium +</button>
+          <button data-th="high" class="sel">High +</button>
+          <button data-th="critical">Critical only</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Auto-handle routine</label>
+        <div style="margin-top:6px">
+          <div class="swrow"><div><div class="lbl">Security</div><div class="sub lock">Locked — can’t be auto-handled</div></div><button class="sw lock" disabled aria-label="Security auto-handle locked"></button></div>
+          <div class="swrow"><div><div class="lbl">Access</div><div class="sub">Low-risk joins</div></div><button class="sw on" role="switch" aria-checked="true" aria-label="Auto-handle access"></button></div>
+          <div class="swrow"><div><div class="lbl">Billing</div><div class="sub">Reports &amp; receipts</div></div><button class="sw on" role="switch" aria-checked="true" aria-label="Auto-handle billing"></button></div>
+          <div class="swrow"><div><div class="lbl">Users</div><div class="sub">SSO / SCIM provisioning</div></div><button class="sw on" role="switch" aria-checked="true" aria-label="Auto-handle users"></button></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Rhythm</label>
+        <div style="margin-top:6px">
+          <div class="swrow"><div><div class="lbl">Quiet hours</div><div class="sub">Hold non-critical until 9:00am</div></div><button class="sw on" role="switch" aria-checked="true" aria-label="Quiet hours"></button></div>
+          <div class="swrow"><div><div class="lbl">Daily digest</div><div class="sub">“Worth knowing” batched · 9:00am</div></div><button class="sw on" role="switch" aria-checked="true" aria-label="Daily digest"></button></div>
+        </div>
+      </div>
+      <div class="nl">✦ <b>or just tell me:</b> “only interrupt me for security”</div>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status"></div>
+  <div class="sr" id="live" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+const $=(s,e=document)=>e.querySelector(s);
+
+/* ------------ data: the three core notifications ------------ */
+const DONUT=(pct,color)=>`<svg width="58" height="58" viewBox="0 0 42 42"><circle cx="21" cy="21" r="15.5" fill="none" stroke="var(--line)" stroke-width="5.5"/><circle cx="21" cy="21" r="15.5" fill="none" stroke="${color}" stroke-width="5.5" stroke-dasharray="${pct} 100" stroke-dashoffset="25" stroke-linecap="round" transform="rotate(-90 21 21)"/></svg>`;
+
+const ITEMS=[
+ {id:'sec',sev:'Critical',cat:'Security',tone:'var(--critical)',title:'Privilege escalation — external guest made admin',
+  tiles:`<div class="tile donut">${DONUT(100,'var(--critical)')}<div><div class="big">1</div><div class="sub">external account<br>with full admin</div></div></div>
+         <div class="tile"><div class="lab">Granted</div><div class="big tnum">6m</div><div class="sub">ago · by m.chen</div></div>
+         <div class="entities"><div class="ent"><span class="ic" style="background:var(--brand)">◆</span><div><b>j.rivera@outside.com</b><small>guest account · created today</small></div></div>
+         <div class="ent"><span class="ic" style="background:var(--ink)">⚠</span><div><b>All products</b><small>full admin scope</small></div></div></div>`,
+  why:'An account <b>outside your verified domains</b> now has full admin. Unusual — m.chen has never granted admin before, and this account was created today.',
+  primary:{label:'Revoke admin role',kind:'danger',done:'Admin role revoked',sub:'m.chen notified · change reversed'},
+  secondary:'It was intended'},
+ {id:'bil',sev:'Critical',cat:'Billing',tone:'var(--critical)',title:'Payment failed — suspends in 3 days',
+  tiles:`<div class="tile donut">${DONUT(28,'var(--amber)')}<div><div class="big tnum">3<span style="font-size:12px"> days</span></div><div class="sub">until suspension</div></div></div>
+         <div class="tile"><div class="lab">Members losing access</div><div class="big tnum">142</div><div class="sub">org-wide</div></div>
+         <div class="entities"><div class="ent"><span class="ic" style="background:var(--brand)">💳</span><div><b>Card ·· 4291</b><small>expired Jun 30</small></div></div>
+         <div class="ent"><span class="ic" style="background:var(--ink)">↻</span><div><b>$2,400 / yr</b><small>renewal on retry</small></div></div></div>`,
+  why:'The card on file expired, so the renewal failed. At suspension <b>all 142 members lose access</b> to every product.',
+  primary:{label:'Retry payment',kind:'primary',done:'Payment retried successfully',sub:'access secured for 142 members'},
+  secondary:'Update card'},
+ {id:'acc',sev:'High',cat:'Access',tone:'var(--amber)',title:'Access-request backlog · Payroll',
+  tiles:`<div class="tile donut">${DONUT(92,'var(--sage)')}<div><div class="big tnum">11/12</div><div class="sub">expected · Finance</div></div></div>
+         <div class="tile"><div class="lab">Flagged unusual</div><div class="big tnum" style="color:var(--critical)">1</div><div class="sub">external contractor</div></div>
+         <div class="entities"><div class="ent"><span class="ic" style="background:var(--brand)">📁</span><div><b>Payroll</b><small>sensitive space</small></div></div>
+         <div class="ent"><span class="ic" style="background:var(--ink)">👥</span><div><b>Finance group</b><small>11 requesters</small></div></div></div>`,
+  why:'Payroll is sensitive, so requests need you — not auto-approval. <b>11 are from Finance</b> (expected); <b>1 is an external contractor</b> added 2 days ago (unusual). I can approve the 11 and hold the contractor.',
+  primary:{label:'Approve 11 · hold contractor',kind:'primary',done:'11 approved · contractor held',sub:'held request waiting in your review queue'},
+  secondary:'Review each'},
+];
+
+const state={sel:'sec',resolved:{},threshold:'high',handled:6,log:[
+ {t:'09:40',a:'Auto-approved 2 join requests',w:'Known domain + your policy',af:'2 users · Marketing',tone:'var(--sage)',undo:true},
+ {t:'09:10',a:'Held 12 routine sign-ins for the digest',w:'Low severity · routine',af:'12 events',tone:'var(--indigo)',undo:false},
+ {t:'08:30',a:'Deduped 9 identical alerts → 1',w:'Repeated failed-login noise',af:'9 events',tone:'var(--indigo)',undo:false},
+]};
+
+/* ------------ desktop render ------------ */
+function esc(s){return String(s)}
+function visibleItems(){
+  return ITEMS.filter(n=>{
+    if(state.threshold==='critical' && n.sev!=='Critical') return false;
+    return true;
+  });
+}
+function renderRail(){
+  const wrap=$('#railItems'); wrap.innerHTML='';
+  const vis=visibleItems();
+  vis.forEach(n=>{
+    const done=state.resolved[n.id];
+    const b=document.createElement('button');
+    b.className='item'+(state.sel===n.id?' sel':'')+(done?' done':'');
+    b.setAttribute('aria-label',`${n.sev} — ${n.title}`);
+    b.innerHTML=`<span class="meta"><span class="dot" style="background:${n.tone}"></span><span style="color:${n.tone};font-weight:600">${n.sev}</span><span style="color:var(--ink3)">· ${n.cat}</span>${done?'<span class="donetag" style="margin-left:auto">✓ done</span>':''}</span><h4>${esc(n.title)}</h4>`;
+    b.onclick=()=>{state.sel=n.id;render();};
+    wrap.appendChild(b);
+  });
+  const open=vis.filter(n=>!state.resolved[n.id]).length;
+  $('#railCount').textContent=open;
+  $('#needCount').textContent=open;
+  $('#needCount').style.display=open?'inline':'none';
+  $('#handledCount').textContent=state.handled+Object.keys(state.resolved).length;
+  if(state.threshold==='critical'){
+    $('#worthCount').textContent=7+ITEMS.filter(n=>n.sev!=='Critical').length;
+  } else {
+    $('#worthCount').textContent=7;
+  }
+}
+function renderDetail(){
+  const n=ITEMS.find(x=>x.id===state.sel)||visibleItems()[0];
+  if(!n){$('#detailPane').innerHTML='<p style="color:var(--ink3);font-size:13px;margin:auto">All clear — Signal is watching.</p>';return;}
+  const done=state.resolved[n.id];
+  $('#detailPane').innerHTML=`
+    <div class="dmeta"><span class="dot" style="background:${n.tone}"></span><span class="sev" style="color:${n.tone}">${n.sev}</span><span style="color:var(--ink3)">· ${n.cat} · needs you</span><span class="ai">AI TRIAGED</span></div>
+    <h2>${esc(n.title)}</h2>
+    <div class="tiles">${n.tiles}</div>
+    <p class="why"><span class="k">Why</span>${n.why}</p>
+    ${done
+      ? `<div class="confirmed"><span class="ck">✓</span><div><b>${esc(done)}</b><small>${esc(n.primary.sub)} · recorded in the activity log</small></div><button class="undo" data-undo="${n.id}">Undo ↺</button></div>`
+      : `<div class="acts"><button class="btn ${n.primary.kind}" data-act="${n.id}">${esc(n.primary.label)}</button><button class="btn quiet" data-dismiss="${n.id}">${esc(n.secondary)}</button></div>`}
+    <div class="dfoot"><div class="askbar">✦ Ask Signal, @mention, or / for actions<span class="send">＋ ⚙ <span style="border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:11px">/</span></span></div></div>`;
+}
+function renderLog(){
+  const t=$('#logTable');
+  t.querySelectorAll('.logrow:not(:first-child)').forEach(r=>r.remove());
+  state.log.forEach(l=>{
+    const d=document.createElement('div'); d.className='logrow';
+    d.innerHTML=`<span class="tnum" style="color:var(--ink3);font-size:11.5px">${l.t}</span>
+      <span class="act"><span class="dot" style="background:${l.tone}"></span>${esc(l.a)}</span>
+      <span class="why2">${esc(l.w)}</span><span style="font-size:12px">${esc(l.af)}</span>
+      ${l.undo?'<button class="undo">Undo ↺</button>':'<span class="na">Show</span>'}`;
+    t.appendChild(d);
+  });
+}
+function render(){renderRail();renderDetail();renderLog();}
+
+/* ------------ desktop interactions ------------ */
+let toastT;
+function toast(msg,undoFn){
+  const t=$('#toast');
+  t.innerHTML=esc(msg)+(undoFn?' <span class="u" id="tundo">Undo</span>':'');
+  t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3600);
+  if(undoFn){$('#tundo').onclick=()=>{undoFn();t.classList.remove('show');};}
+}
+function announce(m){const l=$('#live');l.textContent='';setTimeout(()=>l.textContent=m,30);}
+
+document.addEventListener('click',e=>{
+  const act=e.target.closest('[data-act]');
+  if(act){
+    const n=ITEMS.find(x=>x.id===act.dataset.act);
+    state.resolved[n.id]=n.primary.done;
+    const now=new Date();
+    state.log.unshift({t:'now',a:n.primary.done,w:n.title,af:n.cat,tone:n.tone,undo:true});
+    announce(`${n.primary.done}. Moved to handled. Recorded in the activity log.`);
+    toast(n.primary.done,()=>{delete state.resolved[n.id];state.log.shift();render();});
+    render();
+  }
+  const dis=e.target.closest('[data-dismiss]');
+  if(dis){
+    const n=ITEMS.find(x=>x.id===dis.dataset.dismiss);
+    state.resolved[n.id]='Dismissed — no action needed';
+    state.log.unshift({t:'now',a:'Dismissed: '+n.title,w:'You confirmed no action needed',af:n.cat,tone:'var(--ink3)',undo:true});
+    toast('Dismissed',()=>{delete state.resolved[n.id];state.log.shift();render();});
+    render();
+  }
+  const und=e.target.closest('[data-undo]');
+  if(und){
+    delete state.resolved[und.dataset.undo];
+    state.log.unshift({t:'now',a:'Undid the last action',w:'Reversed from the detail pane',af:'—',tone:'var(--amber)',undo:false});
+    announce('Action undone.');
+    render();
+  }
+});
+
+/* tabs */
+$('#tabFeed').onclick=()=>{swapTab(true)};
+$('#tabLog').onclick=()=>{swapTab(false)};
+function swapTab(feed){
+  $('#feedPane').classList.toggle('hidden',!feed);
+  $('#logPane').classList.toggle('hidden',feed);
+  $('#tabFeed').classList.toggle('sel',feed);
+  $('#tabLog').classList.toggle('sel',!feed);
+}
+
+/* drawer */
+const drawer=$('#drawer'),scrim=$('#scrim');
+$('#openCtl').onclick=()=>{drawer.classList.add('open');scrim.classList.add('open');$('#closeCtl').focus();};
+function closeCtl(){drawer.classList.remove('open');scrim.classList.remove('open');$('#openCtl').focus();}
+$('#closeCtl').onclick=closeCtl;scrim.onclick=closeCtl;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drawer.classList.contains('open'))closeCtl();});
+document.querySelectorAll('#thSeg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#thSeg button').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');state.threshold=b.dataset.th;
+  if(!visibleItems().some(n=>n.id===state.sel)) state.sel=visibleItems()[0]?.id;
+  announce('Interrupt threshold set to '+b.textContent+'.');
+  render();
+});
+document.querySelectorAll('.sw[role="switch"]').forEach(sw=>sw.onclick=()=>{
+  const on=!sw.classList.contains('on');
+  sw.classList.toggle('on',on);sw.setAttribute('aria-checked',on);
+});
+
+/* ------------ mobile flow ------------ */
+let mStage=0;
+function mRender(){
+  const s=$('#mScreen');
+  document.querySelectorAll('#mSteps .s').forEach(el=>el.classList.toggle('on',+el.dataset.s<=mStage));
+  if(mStage===0){
+    s.innerHTML=`<div class="lock">
+      <div class="clock"><div class="t">10:02</div><div class="d">Tuesday 5 July</div></div>
+      <button class="push" id="mPush" aria-label="Open the Signal notification">
+        <span class="ph"><span class="mk"><svg width="9" height="9" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>SIGNAL<span class="tm">now</span></span>
+        <h4>Critical · Payment failed — suspends in 3 days</h4>
+        <p>Card ·· 4291 expired. 142 members lose access at suspension.</p>
+        <span class="pa"><button class="go">Review &amp; fix</button><button class="gh">Later</button></span>
+      </button>
+      <p style="text-align:center;font-size:10px;color:var(--ink3);margin-top:auto">Only Criticals break through — everything else waits for the digest</p>
+    </div>`;
+    $('#mPush').onclick=()=>{mStage=1;mRender();};
+  }
+  if(mStage===1){
+    s.innerHTML=`<div class="cardstage">
+      <div style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700"><span style="color:var(--critical)">● Critical</span><span style="color:var(--ink3);font-weight:500">Billing · 10:02</span></div>
+      <div class="gcard">
+        <div class="t1">Retry renewal · $2,400/yr</div>
+        <div class="t2">card ending 4291 · 142 members</div>
+        <div class="chartbox">
+          <div class="ch"><span>Team usage · last 30 days</span><b>142 active</b></div>
+          <svg viewBox="0 0 240 70" style="width:100%;margin-top:5px">
+            <line x1="0" y1="16" x2="240" y2="16" stroke="rgba(255,255,255,.55)" stroke-width="1.2" stroke-dasharray="3 4"/>
+            <text x="4" y="11" fill="rgba(255,255,255,.85)" font-size="8">access lost at suspension</text>
+            <polyline points="0,58 28,56 42,49 70,47 92,51 122,38 148,40 176,32 205,28 240,22" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="240" cy="22" r="4" fill="#fff"/>
+          </svg>
+          <div class="ch" style="margin-top:2px"><span>Jun 5</span><span>Jul 5</span></div>
+        </div>
+        <div class="cd">
+          <div class="row"><span>today</span><span>suspends 9 Jul</span></div>
+          <div class="track"><span class="fill"></span></div>
+          <p><b>3 days left</b> — one tap restores access for everyone</p>
+        </div>
+        <div class="gact"><button class="back" id="mBack">‹</button><button class="cf" id="mConfirm">Confirm retry</button></div>
+      </div>
+      <p style="font-size:10px;color:var(--ink3);text-align:center;margin-top:10px">Reversible · recorded in the activity log</p>
+    </div>`;
+    $('#mConfirm').onclick=()=>{mStage=2;mRender();};
+    $('#mBack').onclick=()=>{mStage=0;mRender();};
+  }
+  if(mStage===2){
+    s.innerHTML=`<div class="msuccess">
+      <span class="ck">✓</span>
+      <h3>Payment retried</h3>
+      <p>Access secured for <b>142 members</b>.<br>Receipt filed · recorded in the activity log.</p>
+      <button class="undo" id="mUndo">Undo ↺</button>
+      <p style="margin-top:22px;font-size:10.5px;color:var(--ink3)">Back to your day — Signal is watching.</p>
+    </div>`;
+    $('#mUndo').onclick=()=>{mStage=1;mRender();};
+  }
+}
+$('#mReset').onclick=()=>{mStage=0;mRender();};
+
+/* ------------ view switch ------------ */
+$('#vDesk').onclick=()=>{setView(true)};
+$('#vMob').onclick=()=>{setView(false)};
+function setView(desk){
+  $('#deskView').classList.toggle('hidden',!desk);
+  $('#mobView').classList.toggle('hidden',desk);
+  $('#vDesk').classList.toggle('sel',desk);$('#vDesk').setAttribute('aria-selected',desk);
+  $('#vMob').classList.toggle('sel',!desk);$('#vMob').setAttribute('aria-selected',!desk);
+}
+
+/* init */
+render();mRender();
+})();
+</script>
+</body>
+</html>

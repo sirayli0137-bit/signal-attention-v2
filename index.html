@@ -10,10 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#12232E; --ink2:#566773; --ink3:#8A949C;
+    --ink:#12232E; --ink2:#566773; --ink3:#66717A;
     --bg:#F6F8F9; --card:#FFFFFF; --paper2:#F3F7F9; --line:#E1E8EC;
     --brand:#13B5EA; --primary:#0A7DA6; --accent:#E6F7FD;
-    --critical:#E5484D; --amber:#E08600; --sage:#1F9D74; --indigo:#5B6BD6;
+    --critical:#D93036; --amber:#9A6200; --sage:#177E5D; --indigo:#5B6BD6;
     --r:14px; --shadow:0 1px 2px rgba(18,35,46,.05),0 10px 28px -18px rgba(18,35,46,.18);
     --head:'Figtree',system-ui,sans-serif; --body:'Inter',system-ui,sans-serif;
   }
@@ -48,6 +48,10 @@
 
   .split{display:grid;grid-template-columns:300px 1fr;min-height:560px}
   .rail{border-right:1px solid var(--line);padding:14px;overflow:auto}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+  .chip{font-size:11.5px;font-weight:600;padding:6px 11px;border:1px solid var(--line);border-radius:20px;color:var(--ink2);background:#fff}
+  .chip:hover{background:var(--paper2)}
+  .chip.sel{background:var(--accent);color:var(--primary);border-color:rgba(19,181,234,.4)}
   .tierhead{display:flex;align-items:center;gap:8px;margin:4px 0 8px}
   .tierhead .bar{width:3.5px;height:14px;border-radius:3px}
   .tierhead b{font-size:12.5px}
@@ -55,7 +59,7 @@
   .item{width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff;transition:border-color .15s, opacity .3s, transform .3s}
   .item:hover{border-color:var(--ink3)}
   .item.sel{border:1.5px solid var(--brand);background:var(--accent)}
-  .item .meta{display:flex;align-items:center;gap:6px;font-size:10.5px}
+  .item .meta{display:flex;align-items:center;gap:6px;font-size:11.5px}
   .item .meta .dot{height:7px;width:7px;border-radius:50%}
   .item h4{font-size:12.5px;margin-top:5px;line-height:1.3}
   .item.done{opacity:.55}
@@ -67,21 +71,21 @@
   .dmeta{display:flex;align-items:center;gap:8px;font-size:11.5px}
   .dmeta .dot{height:8px;width:8px;border-radius:50%}
   .dmeta .sev{font-weight:600}
-  .dmeta .ai{margin-left:auto;font-size:10px;font-weight:700;color:var(--primary);background:var(--accent);border-radius:6px;padding:2px 7px;letter-spacing:.04em}
+  .dmeta .ai{margin-left:auto;font-size:11px;font-weight:700;color:var(--primary);background:var(--accent);border-radius:6px;padding:2px 7px;letter-spacing:.04em}
   .detail h2{font-size:20px;margin-top:8px}
   .tiles{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:10px;margin-top:14px}
   .tile{background:var(--paper2);border-radius:12px;padding:12px}
-  .tile .lab{font-size:10.5px;color:var(--ink2);line-height:1.3}
+  .tile .lab{font-size:11.5px;color:var(--ink2);line-height:1.3}
   .tile .big{font-size:22px;font-weight:700;font-family:var(--head);margin-top:4px}
-  .tile .sub{font-size:10px;color:var(--ink3)}
+  .tile .sub{font-size:11px;color:var(--ink3)}
   .tile.donut{display:flex;align-items:center;gap:12px}
   .entities{display:grid;gap:8px}
   .ent{background:var(--paper2);border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:9px}
   .ent .ic{height:24px;width:24px;border-radius:7px;display:grid;place-items:center;font-size:11px;color:#fff;flex:none}
   .ent b{font-size:11.5px;display:block;line-height:1.1}
-  .ent small{font-size:9.5px;color:var(--ink3)}
+  .ent small{font-size:11px;color:var(--ink3)}
   .why{margin-top:14px;padding-left:12px;border-left:2px solid var(--line);font-size:12.5px;color:var(--ink2);line-height:1.5}
-  .why .k{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--ink3);text-transform:uppercase;margin-right:6px}
+  .why .k{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink3);text-transform:uppercase;margin-right:6px}
   .why b{color:var(--ink)}
   .acts{display:flex;align-items:center;gap:12px;margin-top:16px}
   .btn{font-size:13px;font-weight:600;padding:9px 16px;border-radius:10px;transition:filter .15s}
@@ -95,6 +99,14 @@
   .confirmed b{color:var(--sage);font-size:13.5px}
   .confirmed small{color:var(--ink2);font-size:11.5px;display:block}
   .confirmed .undo{margin-left:auto;color:var(--primary);font-weight:600;font-size:12.5px}
+  .allclear{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+  .allclear .ck{height:52px;width:52px;border-radius:50%;background:var(--sage);color:#fff;display:grid;place-items:center;font-size:22px;margin-bottom:14px}
+  .allclear h2{font-size:21px}
+  .allclear .sub{font-size:12.5px;color:var(--ink2);margin-top:6px;max-width:40ch}
+  .allclear .grid3{display:grid;grid-template-columns:repeat(3,110px);gap:10px;margin-top:18px}
+  .allclear .g{background:var(--paper2);border-radius:12px;padding:12px 8px}
+  .allclear .g .n{font-size:24px;font-weight:700;font-family:var(--head)}
+  .allclear .g .l{font-size:11px;color:var(--ink2);margin-top:2px}
   .dfoot{margin-top:auto;padding-top:14px}
   .askbar{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:9px 13px;color:var(--ink3);font-size:12.5px;background:#fff}
   .askbar .send{margin-left:auto;display:flex;gap:10px;align-items:center;font-size:13px}
@@ -143,36 +155,36 @@
   /* ---------- mobile flow ---------- */
   .mstage{display:grid;grid-template-columns:340px 1fr;gap:34px;align-items:center;max-width:920px;margin:0 auto}
   .phone{width:318px;border-radius:34px;border:9px solid var(--ink);background:#fff;overflow:hidden;box-shadow:var(--shadow);margin:0 auto}
-  .statusbar{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:10.5px;font-weight:600}
+  .statusbar{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11px;font-weight:600}
   .screen{min-height:520px;padding:12px;display:flex;flex-direction:column;position:relative}
   .lock{background:linear-gradient(170deg,#EAF4F8,#F6F8F9);flex:1;border-radius:16px;display:flex;flex-direction:column;padding:12px}
   .lock .clock{text-align:center;margin-top:26px}
   .lock .clock .t{font-family:var(--head);font-weight:800;font-size:44px;letter-spacing:-.02em}
   .lock .clock .d{font-size:12px;color:var(--ink2)}
   .push{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:11px;margin-top:26px;text-align:left;width:100%}
-  .push .ph{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700}
+  .push .ph{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700}
   .push .ph .mk{height:16px;width:16px;border-radius:5px;background:var(--brand);display:grid;place-items:center}
   .push .ph .tm{margin-left:auto;color:var(--ink3);font-weight:500}
   .push h4{font-size:12.5px;margin-top:6px}
   .push p{margin:3px 0 0;font-size:11px;color:var(--ink2);line-height:1.4}
   .push .pa{display:flex;gap:7px;margin-top:9px}
-  .push .pa button{flex:1;font-size:11px;font-weight:600;padding:7px;border-radius:9px}
+  .push .pa button{flex:1;font-size:11.5px;font-weight:600;padding:14px 8px;border-radius:11px}
   .push .pa .go{background:var(--critical);color:#fff}
   .push .pa .gh{border:1px solid var(--line)}
   .cardstage{flex:1;display:flex;flex-direction:column}
   .gcard{border-radius:18px;padding:14px;color:#fff;background:linear-gradient(160deg,#0C6E7A,#13B5EA);margin-top:8px}
   .gcard .t1{font-size:13.5px;font-weight:700;text-align:center}
-  .gcard .t2{font-size:10px;opacity:.85;text-align:center;margin-top:2px}
+  .gcard .t2{font-size:11px;opacity:.88;text-align:center;margin-top:2px}
   .chartbox{background:rgba(255,255,255,.13);border-radius:12px;padding:10px;margin-top:11px}
-  .chartbox .ch{display:flex;justify-content:space-between;font-size:9px;opacity:.9}
+  .chartbox .ch{display:flex;justify-content:space-between;font-size:10.5px;opacity:.92}
   .cd{margin-top:10px}
-  .cd .row{display:flex;justify-content:space-between;font-size:9px;opacity:.85}
+  .cd .row{display:flex;justify-content:space-between;font-size:10.5px;opacity:.88}
   .cd .track{height:7px;border-radius:6px;background:rgba(255,255,255,.28);margin-top:4px;overflow:hidden}
   .cd .fill{display:block;height:100%;width:28%;background:#fff;border-radius:6px}
-  .cd p{font-size:10px;text-align:center;margin:6px 0 0;opacity:.92}
+  .cd p{font-size:11px;text-align:center;margin:6px 0 0;opacity:.94}
   .gact{display:flex;align-items:center;gap:8px;margin-top:12px}
-  .gact .back{height:32px;width:32px;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;display:grid;place-items:center;flex:none}
-  .gact .cf{flex:1;background:#fff;color:var(--primary);font-weight:700;font-size:13px;padding:9px;border-radius:22px}
+  .gact .back{height:44px;width:44px;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;display:grid;place-items:center;flex:none}
+  .gact .cf{flex:1;background:#fff;color:var(--primary);font-weight:700;font-size:13.5px;padding:14px;border-radius:24px}
   .msuccess{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
   .msuccess .ck{height:54px;width:54px;border-radius:50%;background:var(--sage);color:#fff;display:grid;place-items:center;font-size:24px;margin-bottom:14px}
   .msuccess h3{font-size:17px}
@@ -213,8 +225,8 @@
       <div class="conshead">
         <span class="title"><span class="mark" style="display:grid;place-items:center;height:22px;width:22px;border-radius:7px;background:var(--brand)"><svg width="11" height="11" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>Administration</span>
         <div class="tabs" role="tablist" aria-label="Console sections">
-          <button id="tabFeed" class="sel">Needs you now<span class="n" id="needCount">3</span></button>
-          <button id="tabLog">Activity log</button>
+          <button id="tabFeed" class="sel" role="tab" aria-selected="true" aria-controls="feedPane">Needs you now<span class="n" id="needCount">3</span></button>
+          <button id="tabLog" role="tab" aria-selected="false" aria-controls="logPane">Activity log</button>
         </div>
         <button class="ctrbtn" id="openCtl" aria-haspopup="dialog">⚙ What may interrupt me</button>
       </div>
@@ -222,6 +234,7 @@
       <!-- feed -->
       <div class="split" id="feedPane">
         <aside class="rail" aria-label="Notification list">
+          <div class="chips" id="catChips" role="group" aria-label="Filter by domain"></div>
           <div class="tierhead"><span class="bar" style="background:var(--critical)"></span><b>Needs you now</b><span class="n tnum" id="railCount">3</span></div>
           <div id="railItems"></div>
           <div class="ghostgrp">
@@ -324,7 +337,7 @@ const ITEMS=[
          <div class="ent"><span class="ic" style="background:var(--ink)">⚠</span><div><b>All products</b><small>full admin scope</small></div></div></div>`,
   why:'An account <b>outside your verified domains</b> now has full admin. Unusual — m.chen has never granted admin before, and this account was created today.',
   primary:{label:'Revoke admin role',kind:'danger',done:'Admin role revoked',sub:'m.chen notified · change reversed'},
-  secondary:'It was intended'},
+  secondary:{l:'It was intended',mode:'dismiss',done:'Marked as intended',sub:'your confirmation is logged for the audit trail'}},
  {id:'bil',sev:'Critical',cat:'Billing',tone:'var(--critical)',title:'Payment failed — suspends in 3 days',
   tiles:`<div class="tile donut">${DONUT(28,'var(--amber)')}<div><div class="big tnum">3<span style="font-size:12px"> days</span></div><div class="sub">until suspension</div></div></div>
          <div class="tile"><div class="lab">Members losing access</div><div class="big tnum">142</div><div class="sub">org-wide</div></div>
@@ -332,7 +345,7 @@ const ITEMS=[
          <div class="ent"><span class="ic" style="background:var(--ink)">↻</span><div><b>$2,400 / yr</b><small>renewal on retry</small></div></div></div>`,
   why:'The card on file expired, so the renewal failed. At suspension <b>all 142 members lose access</b> to every product.',
   primary:{label:'Retry payment',kind:'primary',done:'Payment retried successfully',sub:'access secured for 142 members'},
-  secondary:'Update card'},
+  secondary:{l:'Update card',mode:'stub',note:'Opens Billing → payment methods (stubbed in this prototype)'}},
  {id:'acc',sev:'High',cat:'Access',tone:'var(--amber)',title:'Access-request backlog · Payroll',
   tiles:`<div class="tile donut">${DONUT(92,'var(--sage)')}<div><div class="big tnum">11/12</div><div class="sub">expected · Finance</div></div></div>
          <div class="tile"><div class="lab">Flagged unusual</div><div class="big tnum" style="color:var(--critical)">1</div><div class="sub">external contractor</div></div>
@@ -340,13 +353,13 @@ const ITEMS=[
          <div class="ent"><span class="ic" style="background:var(--ink)">👥</span><div><b>Finance group</b><small>11 requesters</small></div></div></div>`,
   why:'Payroll is sensitive, so requests need you — not auto-approval. <b>11 are from Finance</b> (expected); <b>1 is an external contractor</b> added 2 days ago (unusual). I can approve the 11 and hold the contractor.',
   primary:{label:'Approve 11 · hold contractor',kind:'primary',done:'11 approved · contractor held',sub:'held request waiting in your review queue'},
-  secondary:'Review each'},
+  secondary:{l:'Review each',mode:'stub',note:'Opens the full request list (stubbed in this prototype)'}},
 ];
 
-const state={sel:'sec',resolved:{},threshold:'high',handled:6,log:[
- {t:'09:40',a:'Auto-approved 2 join requests',w:'Known domain + your policy',af:'2 users · Marketing',tone:'var(--sage)',undo:true},
- {t:'09:10',a:'Held 12 routine sign-ins for the digest',w:'Low severity · routine',af:'12 events',tone:'var(--indigo)',undo:false},
- {t:'08:30',a:'Deduped 9 identical alerts → 1',w:'Repeated failed-login noise',af:'9 events',tone:'var(--indigo)',undo:false},
+const state={sel:'sec',resolved:{},threshold:'high',handled:6,filter:'all',seq:100,log:[
+ {id:1,t:'09:40',a:'Auto-approved 2 join requests',w:'Known domain + your policy',af:'2 users · Marketing',tone:'var(--sage)',undo:true},
+ {id:2,t:'09:10',a:'Held 12 routine sign-ins for the digest',w:'Low severity · routine',af:'12 events',tone:'var(--indigo)',undo:false},
+ {id:3,t:'08:30',a:'Deduped 9 identical alerts → 1',w:'Repeated failed-login noise',af:'9 events',tone:'var(--indigo)',undo:false},
 ]};
 
 /* ------------ desktop render ------------ */
@@ -354,7 +367,23 @@ function esc(s){return String(s)}
 function visibleItems(){
   return ITEMS.filter(n=>{
     if(state.threshold==='critical' && n.sev!=='Critical') return false;
+    if(state.filter!=='all' && n.cat!==state.filter) return false;
     return true;
+  });
+}
+function renderChips(){
+  const cats=['all','Security','Access','Billing'];
+  const wrap=$('#catChips'); wrap.innerHTML='';
+  cats.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='chip'+(state.filter===c?' sel':'');
+    b.setAttribute('aria-pressed',state.filter===c);
+    b.textContent=c==='all'?'All':c;
+    b.onclick=()=>{state.filter=c;
+      if(!visibleItems().some(n=>n.id===state.sel)) state.sel=visibleItems()[0]?.id;
+      announce(c==='all'?'Showing all domains.':'Filtered to '+c+'.');
+      render();};
+    wrap.appendChild(b);
   });
 }
 function renderRail(){
@@ -365,6 +394,7 @@ function renderRail(){
     const b=document.createElement('button');
     b.className='item'+(state.sel===n.id?' sel':'')+(done?' done':'');
     b.setAttribute('aria-label',`${n.sev} — ${n.title}`);
+    if(state.sel===n.id) b.setAttribute('aria-current','true');
     b.innerHTML=`<span class="meta"><span class="dot" style="background:${n.tone}"></span><span style="color:${n.tone};font-weight:600">${n.sev}</span><span style="color:var(--ink3)">· ${n.cat}</span>${done?'<span class="donetag" style="margin-left:auto">✓ done</span>':''}</span><h4>${esc(n.title)}</h4>`;
     b.onclick=()=>{state.sel=n.id;render();};
     wrap.appendChild(b);
@@ -381,8 +411,24 @@ function renderRail(){
   }
 }
 function renderDetail(){
+  const openAll=ITEMS.filter(x=>!state.resolved[x.id]).length;
+  if(openAll===0){
+    const handled=state.handled+Object.keys(state.resolved).length;
+    $('#detailPane').innerHTML=`<div class="allclear">
+      <span class="ck">✓</span>
+      <h2>All clear — nothing needs you</h2>
+      <p class="sub">Signal is watching. Routine events wait for your 20:30 digest, and everything it does is in the activity log.</p>
+      <div class="grid3">
+        <div class="g"><div class="n" style="color:var(--sage)">0</div><div class="l">need you</div></div>
+        <div class="g"><div class="n">${handled}</div><div class="l">handled for you</div></div>
+        <div class="g"><div class="n" style="color:var(--indigo)">7</div><div class="l">in the digest</div></div>
+      </div>
+    </div>
+    <div class="dfoot"><div class="askbar">✦ Ask Signal, @mention, or / for actions<span class="send">＋ ⚙ <span style="border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:11px">/</span></span></div></div>`;
+    return;
+  }
   const n=ITEMS.find(x=>x.id===state.sel)||visibleItems()[0];
-  if(!n){$('#detailPane').innerHTML='<p style="color:var(--ink3);font-size:13px;margin:auto">All clear — Signal is watching.</p>';return;}
+  if(!n){$('#detailPane').innerHTML='<p style="color:var(--ink3);font-size:13px;margin:auto">Nothing in this domain — try another filter.</p>';return;}
   const done=state.resolved[n.id];
   $('#detailPane').innerHTML=`
     <div class="dmeta"><span class="dot" style="background:${n.tone}"></span><span class="sev" style="color:${n.tone}">${n.sev}</span><span style="color:var(--ink3)">· ${n.cat} · needs you</span><span class="ai">AI TRIAGED</span></div>
@@ -391,7 +437,7 @@ function renderDetail(){
     <p class="why"><span class="k">Why</span>${n.why}</p>
     ${done
       ? `<div class="confirmed"><span class="ck">✓</span><div><b>${esc(done)}</b><small>${esc(n.primary.sub)} · recorded in the activity log</small></div><button class="undo" data-undo="${n.id}">Undo ↺</button></div>`
-      : `<div class="acts"><button class="btn ${n.primary.kind}" data-act="${n.id}">${esc(n.primary.label)}</button><button class="btn quiet" data-dismiss="${n.id}">${esc(n.secondary)}</button></div>`}
+      : `<div class="acts"><button class="btn ${n.primary.kind}" data-act="${n.id}">${esc(n.primary.label)}</button><button class="btn quiet" data-sec="${n.id}">${esc(n.secondary.l)}</button></div>`}
     <div class="dfoot"><div class="askbar">✦ Ask Signal, @mention, or / for actions<span class="send">＋ ⚙ <span style="border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:11px">/</span></span></div></div>`;
 }
 function renderLog(){
@@ -399,14 +445,16 @@ function renderLog(){
   t.querySelectorAll('.logrow:not(:first-child)').forEach(r=>r.remove());
   state.log.forEach(l=>{
     const d=document.createElement('div'); d.className='logrow';
+    const actTxt=l.undone?`<s style="color:var(--ink3)">${esc(l.a)}</s>`:esc(l.a);
+    const cell=l.undone?'<span class="na">Reversed ↺</span>':(l.undo?`<button class="undo" data-logundo="${l.id}">Undo ↺</button>`:'<span class="na">Show</span>');
     d.innerHTML=`<span class="tnum" style="color:var(--ink3);font-size:11.5px">${l.t}</span>
-      <span class="act"><span class="dot" style="background:${l.tone}"></span>${esc(l.a)}</span>
+      <span class="act"><span class="dot" style="background:${l.tone}"></span>${actTxt}</span>
       <span class="why2">${esc(l.w)}</span><span style="font-size:12px">${esc(l.af)}</span>
-      ${l.undo?'<button class="undo">Undo ↺</button>':'<span class="na">Show</span>'}`;
+      ${cell}`;
     t.appendChild(d);
   });
 }
-function render(){renderRail();renderDetail();renderLog();}
+function render(){renderChips();renderRail();renderDetail();renderLog();}
 
 /* ------------ desktop interactions ------------ */
 let toastT;
@@ -424,19 +472,35 @@ document.addEventListener('click',e=>{
   if(act){
     const n=ITEMS.find(x=>x.id===act.dataset.act);
     state.resolved[n.id]=n.primary.done;
-    const now=new Date();
-    state.log.unshift({t:'now',a:n.primary.done,w:n.title,af:n.cat,tone:n.tone,undo:true});
+    state.log.unshift({id:++state.seq,itemId:n.id,t:'now',a:n.primary.done,w:n.title,af:n.cat,tone:n.tone,undo:true});
     announce(`${n.primary.done}. Moved to handled. Recorded in the activity log.`);
     toast(n.primary.done,()=>{delete state.resolved[n.id];state.log.shift();render();});
     render();
   }
-  const dis=e.target.closest('[data-dismiss]');
-  if(dis){
-    const n=ITEMS.find(x=>x.id===dis.dataset.dismiss);
-    state.resolved[n.id]='Dismissed — no action needed';
-    state.log.unshift({t:'now',a:'Dismissed: '+n.title,w:'You confirmed no action needed',af:n.cat,tone:'var(--ink3)',undo:true});
-    toast('Dismissed',()=>{delete state.resolved[n.id];state.log.shift();render();});
-    render();
+  const sec=e.target.closest('[data-sec]');
+  if(sec){
+    const n=ITEMS.find(x=>x.id===sec.dataset.sec);
+    if(n.secondary.mode==='dismiss'){
+      state.resolved[n.id]=n.secondary.done;
+      state.log.unshift({id:++state.seq,itemId:n.id,t:'now',a:n.secondary.done+': '+n.title,w:n.secondary.sub,af:n.cat,tone:'var(--ink3)',undo:true});
+      announce(n.secondary.done+'. Moved to handled.');
+      toast(n.secondary.done,()=>{delete state.resolved[n.id];state.log.shift();render();});
+      render();
+    } else {
+      announce(n.secondary.note);
+      toast(n.secondary.note);
+    }
+  }
+  const lu=e.target.closest('[data-logundo]');
+  if(lu){
+    const entry=state.log.find(x=>String(x.id)===lu.dataset.logundo);
+    if(entry && !entry.undone){
+      entry.undone=true;
+      if(entry.itemId) delete state.resolved[entry.itemId];
+      announce('Reversed: '+entry.a);
+      toast('Reversed: '+entry.a);
+      render();
+    }
   }
   const und=e.target.closest('[data-undo]');
   if(und){
@@ -455,6 +519,8 @@ function swapTab(feed){
   $('#logPane').classList.toggle('hidden',feed);
   $('#tabFeed').classList.toggle('sel',feed);
   $('#tabLog').classList.toggle('sel',!feed);
+  $('#tabFeed').setAttribute('aria-selected',feed);
+  $('#tabLog').setAttribute('aria-selected',!feed);
 }
 
 /* drawer */
@@ -476,22 +542,32 @@ document.querySelectorAll('.sw[role="switch"]').forEach(sw=>sw.onclick=()=>{
 });
 
 /* ------------ mobile flow ------------ */
-let mStage=0;
+let mStage=0,mHeld=false;
 function mRender(){
   const s=$('#mScreen');
   document.querySelectorAll('#mSteps .s').forEach(el=>el.classList.toggle('on',+el.dataset.s<=mStage));
   if(mStage===0){
-    s.innerHTML=`<div class="lock">
-      <div class="clock"><div class="t">10:02</div><div class="d">Tuesday 5 July</div></div>
-      <button class="push" id="mPush" aria-label="Open the Signal notification">
+    const pushHtml=mHeld
+      ? `<div class="push" role="status" style="text-align:center">
+           <p style="margin:2px 0;font-size:12px;color:var(--sage);font-weight:600">✓ Held — in tonight’s 20:30 digest</p>
+           <button id="mUnhold" style="font-size:11.5px;font-weight:600;color:var(--primary);padding:10px">Undo ↺</button>
+         </div>`
+      : `<div class="push" role="group" aria-label="Signal notification">
         <span class="ph"><span class="mk"><svg width="9" height="9" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>SIGNAL<span class="tm">now</span></span>
         <h4>Critical · Payment failed — suspends in 3 days</h4>
         <p>Card ·· 4291 expired. 142 members lose access at suspension.</p>
-        <span class="pa"><button class="go">Review &amp; fix</button><button class="gh">Later</button></span>
-      </button>
-      <p style="text-align:center;font-size:10px;color:var(--ink3);margin-top:auto">Only Criticals break through — everything else waits for the digest</p>
+        <span class="pa"><button class="go" id="mGo">Review &amp; fix</button><button class="gh" id="mLater">Later</button></span>
+      </div>`;
+    s.innerHTML=`<div class="lock">
+      <div class="clock"><div class="t">10:02</div><div class="d">Tuesday 5 July</div></div>
+      ${pushHtml}
+      <p style="text-align:center;font-size:11px;color:var(--ink3);margin-top:auto">Only Criticals break through — everything else waits for the digest</p>
     </div>`;
-    $('#mPush').onclick=()=>{mStage=1;mRender();};
+    if(mHeld){ $('#mUnhold').onclick=()=>{mHeld=false;mRender();}; }
+    else{
+      $('#mGo').onclick=()=>{mStage=1;mRender();};
+      $('#mLater').onclick=()=>{mHeld=true;announce('Held for tonight’s digest.');mRender();};
+    }
   }
   if(mStage===1){
     s.innerHTML=`<div class="cardstage">
@@ -516,7 +592,7 @@ function mRender(){
         </div>
         <div class="gact"><button class="back" id="mBack">‹</button><button class="cf" id="mConfirm">Confirm retry</button></div>
       </div>
-      <p style="font-size:10px;color:var(--ink3);text-align:center;margin-top:10px">Reversible · recorded in the activity log</p>
+      <p style="font-size:11px;color:var(--ink3);text-align:center;margin-top:10px">Reversible · recorded in the activity log</p>
     </div>`;
     $('#mConfirm').onclick=()=>{mStage=2;mRender();};
     $('#mBack').onclick=()=>{mStage=0;mRender();};
@@ -527,12 +603,12 @@ function mRender(){
       <h3>Payment retried</h3>
       <p>Access secured for <b>142 members</b>.<br>Receipt filed · recorded in the activity log.</p>
       <button class="undo" id="mUndo">Undo ↺</button>
-      <p style="margin-top:22px;font-size:10.5px;color:var(--ink3)">Back to your day — Signal is watching.</p>
+      <p style="margin-top:22px;font-size:11px;color:var(--ink3)">Back to your day — Signal is watching.</p>
     </div>`;
     $('#mUndo').onclick=()=>{mStage=1;mRender();};
   }
 }
-$('#mReset').onclick=()=>{mStage=0;mRender();};
+$('#mReset').onclick=()=>{mStage=0;mHeld=false;mRender();};
 
 /* ------------ view switch ------------ */
 $('#vDesk').onclick=()=>{setView(true)};

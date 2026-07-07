@@ -256,8 +256,8 @@
     <span class="logo"><span class="mark"><svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>Signal</span>
     <span class="scenario">Meridian Studio · Mara, owner-admin</span>
     <div class="viewswitch" role="tablist" aria-label="Prototype view">
-      <button id="vDesk" class="sel" role="tab" aria-selected="true">💻 Desktop console</button>
-      <button id="vMob" role="tab" aria-selected="false">📱 Mobile flow</button>
+      <button id="vMob" class="sel" role="tab" aria-selected="true">📱 Mobile flow</button>
+      <button id="vDesk" role="tab" aria-selected="false">💻 Desktop console</button>
     </div>
   </nav>
 
@@ -897,8 +897,8 @@ function setView(desk){
   $('#vMob').classList.toggle('sel',!desk);$('#vMob').setAttribute('aria-selected',!desk);
 }
 
-/* init */
-render();mRender();
+/* init — lead with the mobile flow (break-through first, per Mara's journey) */
+render();mRender();setView(false);
 })();
 </script>
 </body>

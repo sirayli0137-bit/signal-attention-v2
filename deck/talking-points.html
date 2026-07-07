@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Signal — talking points, slide by slide</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#12232E;--ink2:#566773;--ink3:#66717A;--line:#E1E8EC;--brand:#13B5EA;--primary:#0A7DA6;--accent:#E6F7FD;--paper:#F3F7F9}
+  *{box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;font-size:14.5px;line-height:1.6;color:var(--ink);margin:0;background:#fff}
+  .wrap{max-width:860px;margin:0 auto;padding:36px 28px 60px}
+  h1{font-family:'Figtree',sans-serif;font-weight:800;font-size:30px;letter-spacing:-.02em;margin:0 0 4px}
+  .meta{color:var(--ink2);font-size:13px;margin-bottom:22px}
+  .slide{border:1px solid var(--line);border-radius:14px;padding:14px 18px 12px;margin:12px 0;break-inside:avoid}
+  .slide h2{font-family:'Figtree',sans-serif;font-weight:800;font-size:15.5px;margin:0 0 8px;letter-spacing:-.01em}
+  .slide h2 .n{display:inline-block;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:1px 8px;font-size:12px;color:var(--ink3);margin-right:8px;vertical-align:1px}
+  ul{margin:0;padding-left:20px}
+  li{margin:4px 0}
+  li b{color:var(--primary)}
+  .say{font-style:italic}
+  .gold{background:var(--accent);border-left:4px solid var(--brand);border-radius:12px;padding:11px 15px;font-weight:600;margin:14px 0}
+  .sect{font-family:'Figtree',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin:26px 0 4px}
+  a{color:var(--primary)}
+  @media print{ .wrap{padding:0} body{font-size:12px} }
+</style>
+</head>
+<body><div class="wrap">
+  <h1>Talking points — slide by slide</h1>
+  <p class="meta">Casual version — this is roughly what you say out loud, not what's on the screen. Pairs with the <a href="run-sheet.html">run sheet</a> (timing) and <a href="qa-prep.html">Q&amp;A prep</a>. Italics = say it close to verbatim.</p>
+
+  <div class="gold">If you only memorise one line: <span class="say">"Rank by consequence. Deliver by context. Earn trust by showing your work."</span> Open with it, close with it.</div>
+
+  <div class="slide"><h2><span class="n">1</span>Title</h2><ul>
+    <li><span class="say">"Hi — I'm going to show you Signal. It's an attention layer for admins, and the whole idea fits in one sentence: rank by consequence, deliver by context, earn trust by showing your work."</span></li>
+    <li><span class="say">"Everything for the next twenty minutes is just that sentence, unpacked."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">2</span>How I ran it</h2><ul>
+    <li><span class="say">"Quick word on process before the work, because the brief asked me to use AI — and I did, a lot. But with structure."</span></li>
+    <li><span class="say">"I wrote one master prompt with six checkpoints. The AI built everything between the gates — research sweeps, boards, even the prototype. At each gate, it stopped and I chose the direction."</span></li>
+    <li>Then just read the scoreboard casually: <span class="say">"So: 6 checkpoints, 18 ideas explored, 26 competitor patterns, 17 audit findings, 3 prototype versions. I'll flag the moments where I overrode it as we go."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">3</span>The frame</h2><ul>
+    <li><span class="say">"First decision: where to set this. I picked an admin center — think Atlassian admin or Google Workspace admin — not an accounting product."</span></li>
+    <li><span class="say">"Two reasons. Admin notifications are genuinely high-stakes and genuinely noisy — security, billing, access. And honestly, I wasn't going to out-domain your accountants in a week. This way we argue about design, not about tax rules."</span></li>
+    <li>If it feels needed: <span class="say">"Everything here ports straight onto Xero's surfaces — the setting is a stand-in, the system isn't."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">4</span>Archetypes</h2><ul>
+    <li><span class="say">"Meet Mara. She owns a 40-person studio, she's the admin because someone had to be, and she will never — ever — open a notification settings page."</span></li>
+    <li><span class="say">"She's the design target. If she can trust this hands-off, then the IT admin and the enterprise team get power on top of her defaults — not a separate product."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">5</span>HEART — how we'd measure it</h2><ul>
+    <li><span class="say">"Success metrics up front, so the design has something to answer to."</span></li>
+    <li><span class="say">"The unusual one: Retention here means how much she lets the AI carry — does 'handled for you' stay handled, or does she re-check everything? I call it the letting-go metric."</span></li>
+    <li><span class="say">"And trust and transparency isn't a metric alongside the others — it's the gate. If that fails, nothing else matters."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">6</span>Her week — the insight slide</h2><ul>
+    <li>Slow down here; this is the "aha". <span class="say">"We mapped her actual week, and here's the thing: about 90% of it is spent away from the desk. On site, in meetings, at home."</span></li>
+    <li><span class="say">"Which means the interesting design question isn't what the notification says — it's where and when it's allowed to reach her. The channel is the design."</span></li>
+    <li><span class="say">"So: critical breaks through anywhere, even by SMS. Action items get one well-timed push. Routine gets handled or batched into an evening digest. And deep triage waits for the desk."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">7</span>Three problems</h2><ul>
+    <li><span class="say">"That boils down to three problems to solve: reach her at the right moment in the right channel, let her act without any setup homework, and earn enough trust that she can actually let go."</span></li>
+    <li><span class="say">"One system answers all three — that's what the rest of this is."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">8</span>Explored wide</h2><ul>
+    <li>Don't read this slide — gesture at it. <span class="say">"We went wide first: 18 ideas, from tiny tweaks to full agentic copilots, each one traced to a real product doing it today."</span></li>
+    <li><span class="say">"The point of the width was to make the narrowing honest."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">9</span>Scored &amp; narrowed</h2><ul>
+    <li><span class="say">"Scored on impact, effort and how well it scales. Two winners for now: the triage brain — deciding what matters — and the router — deciding where it goes."</span></li>
+    <li><span class="say">"The copilot scored well too, and I deliberately pushed it later. An assistant you don't trust yet is just another notification. It has to earn its way in."</span> (This is override story #1 territory if anyone asks.)</li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">10</span>The flow</h2><ul>
+    <li><span class="say">"The end-to-end flow isn't copied from any one competitor — it's a synthesis, and every piece is cited: PagerDuty's routing spine, iOS's digest-by-default, Gmail's single feed."</span></li>
+    <li><span class="say">"Steal the best pattern for each job, and make them agree with each other."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">11</span>System × channels</h2><ul>
+    <li><span class="say">"This grid is the whole product on one slide. Rows are the system — the eight layers. Columns are delivery — app, desktop, SMS, Slack."</span></li>
+    <li>Physically point at the empty cells: <span class="say">"And look at what's empty. Most of this grid is deliberately silent. The calm isn't an absence of design — it is the design."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">12</span>The stack</h2><ul>
+    <li><span class="say">"Each layer's final pick, each one tied back to a principle — nothing in here is a vibe."</span></li>
+    <li>Then the pivot, with energy: <span class="say">"That's the theory. Let me show you the real thing."</span> → switch tabs.</li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">13</span>DEMO (the 4-minute centrepiece)</h2><ul>
+    <li>Narrate what Mara feels, not what you click. Rough script:</li>
+    <li><span class="say">"This is her Monday inbox the old way — 16 notifications, all equal weight. Two of them actually matter. Find them."</span> (pause a beat) <span class="say">"Exactly."</span> Then flip the toggle: <span class="say">"Same morning, with Signal: three need her, 118 handled without her."</span></li>
+    <li>Act on the security item: <span class="say">"One click to revoke — and undo is right there. Nothing is a leap of faith."</span></li>
+    <li>Log: <span class="say">"Everything the AI did on its own is here, in plain language, reversible. This page is why she can let go."</span></li>
+    <li>Digest tab: <span class="say">"The weekly picture, plus one recommendation she can apply in a tap — and it logs itself."</span></li>
+    <li>Ask Signal: <span class="say">"And when she has a question, she just asks — the answer links her straight to the item."</span></li>
+    <li>Mobile: <span class="say">"Out of the office at 10:02, only the critical breaks through — trend chart, one confirm, done in 90 seconds. Then nothing until 20:30: one digest ping. Nothing urgent — sleep well. That's the product."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">14–24</span>Backup screenshots</h2><ul>
+    <li>Only if the live demo dies. Same script as above, one screenshot per beat. Press <b>B</b> to skip past them when the demo worked.</li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">25</span>Audited &amp; refined</h2><ul>
+    <li><span class="say">"I didn't stop at version one. I turned the AI design-critique tools and our competitive research on my own prototype — 17 findings."</span></li>
+    <li><span class="say">"Best catch: my secondary buttons were quietly dismissing alerts while pretending to do something. A trust bug in a product about trust. Fixed, along with contrast, touch targets, a working undo. Three versions in, same URL."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">26</span>AI in my process</h2><ul>
+    <li><span class="say">"So, where did AI help and where did I overrule it? Short version: it accelerated everything and decided nothing at the gates."</span></li>
+    <li>Tell story 1: <span class="say">"It scored 'auto-resolve security alerts' as a top idea — great efficiency numbers. I killed it, because a false auto-resolve on a privilege escalation isn't a UX miss, it's a hidden breach. That one call shaped the tiers, the log, the guardrails."</span></li>
+    <li>Tease story 2: <span class="say">"And even the audit — I triaged all 17 findings myself and rejected the ones that traded Mara's calm for density. Happy to go deeper in Q&amp;A."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">27</span>If we had more time</h2><ul>
+    <li><span class="say">"What's next is deliberately unglamorous: put this in front of real admins before adding more polish, swap the typed rules for a model behind the same interface, and measure the trust gate — do people actually let go?"</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">28</span>Close</h2><ul>
+    <li>Bring it home, slowly: <span class="say">"So — rank by consequence. Deliver by context. Earn trust by showing your work. The prototype's live at the link, the whole process is on the canvas, and I'd love your questions."</span></li>
+  </ul></div>
+
+  <div class="sect">Appendix (Q&amp;A only — don't present these)</div>
+  <div class="slide"><h2><span class="n">29–32</span>Appendix slides</h2><ul>
+    <li>Pull up on demand: the brief's six questions answered · framing + prototype walk · component/a11y evidence · mobile audit detail.</li>
+    <li><span class="say">"Good question — I actually have a slide on that"</span> is a strong move; use it once, max twice.</li>
+  </ul></div>
+
+</div></body>
+</html>

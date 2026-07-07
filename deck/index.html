@@ -13,8 +13,9 @@
   body{font-family:'Inter',system-ui,sans-serif;background:#0E1B23;color:var(--ink);overflow:hidden}
   h1,h2,h3{font-family:'Figtree',system-ui,sans-serif;font-weight:800;letter-spacing:-.02em;margin:0}
   .stagewrap{position:fixed;inset:0;display:grid;place-items:center;padding:18px}
-  .slide{width:min(96vw,calc(96vh*1.9));aspect-ratio:1.9/1;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 80px -20px rgba(0,0,0,.6);position:relative}
+  .slide{width:min(96vw,calc(96vh*1.6));aspect-ratio:1.6/1;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 80px -20px rgba(0,0,0,.6);position:relative}
   .slide img{width:100%;height:100%;object-fit:contain;background:#fff;display:block}
+  .fit{width:1440px;height:900px;transform-origin:0 0;position:absolute;top:0;left:0}
   .gen{height:100%;display:flex;flex-direction:column;justify-content:center;padding:6% 8%}
   .badge{position:absolute;top:14px;right:16px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:14px}
   .badge.backup{background:#FFF3E6;color:#9A6200;border:1px solid #E8CBA2}
@@ -129,13 +130,21 @@ const SLIDES=[
 let i=Math.max(0,Math.min(SLIDES.length-1,(parseInt(location.hash.slice(1),10)||1)-1));
 let showNotes=false;
 const stage=document.getElementById('stage'), count=document.getElementById('count'), notes=document.getElementById('notes');
+function applyFit(){
+  document.querySelectorAll('.slide').forEach(sl=>{
+    const f=sl.querySelector(':scope > .fit');
+    if(f){ const sc=Math.min(sl.clientWidth/1440, sl.clientHeight/900); f.style.transform='scale('+sc+')'; }
+  });
+}
+window.addEventListener('resize',applyFit);
 function draw(){
   const s=SLIDES[i];
-  stage.innerHTML=(s.img?`<img src="${s.img}" alt="slide ${i+1}">`:s.html)
+  stage.innerHTML=(s.img?`<img src="${s.img}" alt="slide ${i+1}">`:`<div class="fit">${s.html}</div>`)
     +(s.backup?'<span class="badge backup">Backup</span>':'')+(s.appendix?'<span class="badge appendix">Q&A appendix</span>':'');
   count.textContent=(i+1)+' / '+SLIDES.length;
   notes.innerHTML=s.note||''; notes.classList.toggle('show',showNotes&&!!s.note);
   location.hash=i+1;
+  applyFit();
 }
 function go(d){ i=Math.max(0,Math.min(SLIDES.length-1,i+d)); draw(); }
 document.addEventListener('keydown',e=>{
@@ -152,8 +161,9 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('click',e=>{ if(e.clientX>innerWidth/2) go(1); else go(-1); });
 // print mode: render all slides stacked
 if(new URLSearchParams(location.search).has('print')){
-  document.querySelector('.stagewrap').innerHTML=SLIDES.map((s,k)=>`<div class="slide">${s.img?`<img src="${s.img}">`:s.html}</div>`).join('');
+  document.querySelector('.stagewrap').innerHTML=SLIDES.map((s,k)=>`<div class="slide">${s.img?`<img src="${s.img}">`:`<div class="fit">${s.html}</div>`}</div>`).join('');
   document.querySelector('.hud').style.display='none';
+  setTimeout(applyFit,300);
 }else{ draw(); }
 </script>
 </body>

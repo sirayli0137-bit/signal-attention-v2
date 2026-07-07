@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Signal — Q&amp;A prep sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#12232E;--ink2:#566773;--ink3:#66717A;--line:#E1E8EC;--brand:#13B5EA;--primary:#0A7DA6;--accent:#E6F7FD;--paper:#F3F7F9;--sage:#177E5D}
+  *{box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.55;color:var(--ink);margin:0;background:#fff}
+  .wrap{max-width:920px;margin:0 auto;padding:36px 28px 60px}
+  h1,h2{font-family:'Figtree',sans-serif;font-weight:800;letter-spacing:-.02em}
+  h1{font-size:30px;margin:0 0 4px}
+  h2{font-size:17px;margin:28px 0 10px}
+  .meta{color:var(--ink2);font-size:13px}
+  .story{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:12px 0}
+  .story b:first-child{font-family:'Figtree',sans-serif;font-size:14.5px}
+  .qa{border:1px solid var(--line);border-radius:14px;padding:13px 18px;margin:10px 0}
+  .q{font-weight:700;font-family:'Figtree',sans-serif;font-size:14.5px;margin-bottom:5px}
+  .q .n{display:inline-block;min-width:22px;color:var(--primary)}
+  .a{color:var(--ink)}
+  .a b{color:var(--primary)}
+  .tip{background:var(--accent);border-left:4px solid var(--brand);border-radius:12px;padding:11px 15px;font-size:13px;margin:14px 0;font-weight:600}
+  a{color:var(--primary)}
+  @media print{ .wrap{padding:0} body{font-size:12px} .qa,.story{break-inside:avoid} }
+</style>
+</head>
+<body><div class="wrap">
+  <h1>Signal — Q&amp;A prep sheet</h1>
+  <p class="meta">Pairs with the <a href="run-sheet.html">run sheet</a>. Keep answers to ~30 seconds; end each on a design principle, not a feature.</p>
+
+  <div class="tip">The theme under every answer: AI accelerated everything; it decided nothing at the gates. I did.</div>
+
+  <h2>Two “where I overrode the AI” anecdotes — have these ready verbatim</h2>
+  <div class="story">
+    <b>1 · The auto-resolve refusal.</b> During ideation the AI scored “auto-resolve security alerts under a confidence threshold” as a top idea — the efficiency numbers looked great. I killed it. A false auto-resolve on a privilege escalation isn’t a UX miss; it’s a breach with a paper trail that says the system hid it. So Security is <b>locked out of auto-handling by design</b> — AI diagnoses and drafts the fix, a human clicks it. That single decision shaped the tier model, the activity log, and the copilot’s guardrails.
+  </div>
+  <div class="story">
+    <b>2 · Auditing the auditor.</b> I ran AI design-critique skills against my own AI-built prototype — 17 findings. But I didn’t apply them wholesale: I triaged all 17 myself, accepted the contrast and honesty fixes (secondary buttons were silently dismissing alerts — a trust bug the AI caught), and <b>rejected the suggestions that traded Mara’s calm for feature density</b>. The audit is on the canvas: findings, my verdicts, and the diff between v1 and v1.3.
+  </div>
+
+  <h2>Ten anticipated questions</h2>
+
+  <div class="qa"><div class="q"><span class="n">1</span>Why an Admin Center and not Xero’s accounting product?</div>
+  <div class="a">Deliberate scope call. Notifications are the brief; accounting depth isn’t — and I’d lose to your own domain experts pretending otherwise. An admin console gives genuinely high-stakes, high-noise notifications (security, billing, access) so we can argue <b>design, not domain</b>. The system — rank by consequence, deliver by context — ports straight onto Xero’s surfaces.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">2</span>How does the scoring actually work?</div>
+  <div class="a">Today: typed rules — severity × impact (who/what it touches: money, access, data) × time pressure → three tiers. That’s honest v1; it’s deterministic and explainable. The model earns its way in later, per event-type, only where its precision beats the rules — and every score keeps a <b>“why now” explanation</b> attached, because an unexplained rank is just a new kind of noise.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">3</span>What happens when the AI gets it wrong?</div>
+  <div class="a">Three nets: wrong tier → any surface lets you <b>escalate or mute in one tap</b>, and that correction feeds routing; wrong auto-action → <b>everything auto-handled is logged and undoable</b>; wrong on security → impossible by design, it never auto-acts there. The failure mode we optimise against is the silent one.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">4</span>Isn’t this just PagerDuty / Opsgenie?</div>
+  <div class="a">Those route <b>incidents to on-call engineers</b> who chose severity ladders as a job. Mara is an owner-admin with no on-call rota and no config appetite. Signal’s bet is the inverse: <b>smart defaults with light override</b>, auto-handling of the routine, and a digest — attention management for people who won’t set up escalation policies, which is most admins.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">5</span>How does this scale to enterprise?</div>
+  <div class="a">Same spine, more governance: routing rules become <b>policies</b> (who may auto-handle what), the activity log becomes an <b>audit export</b>, tiers map to team queues instead of one person. Dev the IT admin is already in the archetypes — enterprise gets power <b>on top of</b> Mara’s defaults, not a different product.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">6</span>Doesn’t the digest just bury things?</div>
+  <div class="a">Only what the system has <b>already handled or ranked as safe-to-wait</b> — criticals always break through, even at 20:30. And the digest isn’t a dump: it leads with a recommendation you can act on in one tap. The risk to manage is misclassification, which is question 3 — escalate-in-one-tap is the net.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">7</span>What would you validate first with real users?</div>
+  <div class="a">The <b>trust gate</b>: do admins let “Handled for you” stay handled, or do they re-check everything? Instrument re-open rate on auto-handled items and undo rate. If those don’t fall over the first weeks, the whole premise — attention returned, not just re-sorted — fails, and no visual polish rescues it.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">8</span>How did you actually use AI in this project?</div>
+  <div class="a">A master prompt with <b>six human checkpoints</b>: AI diverged (18 ideas), swept 26 competitor patterns, generated boards and the prototype, audited my prototype (17 findings) — and at every gate I chose direction, killed ideas, re-threaded the narrative. The two stories I’d point to: the auto-resolve refusal and auditing-the-auditor (above).</div></div>
+
+  <div class="qa"><div class="q"><span class="n">9</span>Why three tiers and not priorities P1–P4 or a smart-sorted single feed?</div>
+  <div class="a">Tiers answer Mara’s actual question — <b>“do I need to do anything?”</b> — not “how important is this abstractly”. P-levels make her rank; a smart-sorted stream still makes her read everything. Three tiers map to three behaviours: act now, glance later, ignore safely. The third one is the product.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">10</span>What’s the business case?</div>
+  <div class="a">Two lines: <b>risk</b> — missed criticals are churn-grade events (a breach or a failed payroll run costs the account), and Signal cuts time-to-action on those to 90 seconds; <b>cost</b> — admin attention is the scarcest seat in an SME, and ↓62% interruptions is retention for the whole workspace, not a nicety. Trust metrics (undo rate, re-open rate) are the leading indicators.</div></div>
+
+</div></body>
+</html>

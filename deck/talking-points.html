@@ -6,7 +6,7 @@
 <title>Signal — talking points, slide by slide</title>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#12232E;--ink2:#566773;--ink3:#66717A;--line:#E1E8EC;--brand:#13B5EA;--primary:#0A7DA6;--accent:#E6F7FD;--paper:#F3F7F9}
+  :root{--ink:#12232E;--ink2:#566773;--ink3:#66717A;--line:#E1E8EC;--brand:#13B5EA;--primary:#0A7DA6;--accent:#E6F7FD;--paper:#F3F7F9;--sage:#177E5D}
   *{box-sizing:border-box}
   body{font-family:'Inter',system-ui,sans-serif;font-size:14.5px;line-height:1.6;color:var(--ink);margin:0;background:#fff}
   .wrap{max-width:860px;margin:0 auto;padding:36px 28px 60px}
@@ -15,10 +15,13 @@
   .slide{border:1px solid var(--line);border-radius:14px;padding:14px 18px 12px;margin:12px 0;break-inside:avoid}
   .slide h2{font-family:'Figtree',sans-serif;font-weight:800;font-size:15.5px;margin:0 0 8px;letter-spacing:-.01em}
   .slide h2 .n{display:inline-block;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:1px 8px;font-size:12px;color:var(--ink3);margin-right:8px;vertical-align:1px}
+  .stage{border-left:4px solid var(--brand)}
+  .stage h2 .n{background:var(--accent);border-color:#A9E0F5;color:var(--primary)}
   ul{margin:0;padding-left:20px}
   li{margin:4px 0}
   li b{color:var(--primary)}
   .say{font-style:italic}
+  .brd{display:inline-block;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:0 7px;font-size:11.5px;color:var(--ink3);white-space:nowrap}
   .gold{background:var(--accent);border-left:4px solid var(--brand);border-radius:12px;padding:11px 15px;font-weight:600;margin:14px 0}
   .sect{font-family:'Figtree',sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin:26px 0 4px}
   a{color:var(--primary)}
@@ -27,7 +30,7 @@
 </head>
 <body><div class="wrap">
   <h1>Talking points — slide by slide</h1>
-  <p class="meta">Casual version — this is roughly what you say out loud, not what's on the screen. Pairs with the <a href="run-sheet.html">run sheet</a> (timing) and <a href="qa-prep.html">Q&amp;A prep</a>. Italics = say it close to verbatim.</p>
+  <p class="meta">Casual version — this is roughly what you say out loud, not what's on the screen. Pairs with the <a href="run-sheet.html">run sheet</a> (timing) and <a href="qa-prep.html">Q&amp;A prep</a>. Italics = say it close to verbatim. <span class="brd">boards</span> = the MagicPath board the point comes from, so you can pull evidence in Q&amp;A.</p>
 
   <div class="gold">If you only memorise one line: <span class="say">"Rank by consequence. Deliver by context. Earn trust by showing your work."</span> Open with it, close with it.</div>
 
@@ -36,10 +39,13 @@
     <li><span class="say">"Everything for the next twenty minutes is just that sentence, unpacked."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">2</span>How I ran it</h2><ul>
-    <li><span class="say">"Quick word on process before the work, because the brief asked me to use AI — and I did, a lot. But with structure."</span></li>
-    <li><span class="say">"I wrote one master prompt with six checkpoints. The AI built everything between the gates — research sweeps, boards, even the prototype. At each gate, it stopped and I chose the direction."</span></li>
-    <li>Then just read the scoreboard casually: <span class="say">"So: 6 checkpoints, 18 ideas explored, 26 competitor patterns, 17 audit findings, 3 prototype versions. I'll flag the moments where I overrode it as we go."</span></li>
+  <div class="slide"><h2><span class="n">2</span>How I ran it — four AI practices</h2><ul>
+    <li><span class="say">"Quick word on process, because the brief asked me to use AI — and I did, heavily. But with structure. Four practices working together."</span></li>
+    <li><b>MASS prompt</b> — the spine: <span class="say">"The core is what I call the MASS prompt — a methodology for using AI to broaden and deepen each divergent and convergent phase, with a human in the loop bringing the critical, creative judgement. One master prompt, six checkpoints. The AI built everything between the gates; at each gate it stopped, and I chose the direction."</span></li>
+    <li><b>Context engineering</b>: <span class="say">"Before anything ran, I put the design system and the brief overview in place at the project level — so every single output starts on-brand and on-brief instead of generic. On bigger projects that context can sit even higher — problem-space level, or global."</span></li>
+    <li><b>Prompt engineering</b>: <span class="say">"At each step I fed it as much context as I could, mostly by voice — talking is much higher bandwidth than typing, so the AI got the full picture every time."</span></li>
+    <li><b>Automated research &amp; synthesis</b>: <span class="say">"And I chained design-critique skills, MCP integrations like Mobbin, screenshot references and auto-validation so comparative research and quality checks ran automatically — keeping the output up to standard and aligned with where I was steering."</span></li>
+    <li>Close with the scoreboard, one breath: <span class="say">"Net result: 6 checkpoints, 18 ideas, 26 cited patterns, 17 audit findings, 3 prototype versions. I'll flag the moments where I overrode the AI as we go."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">3</span>The frame</h2><ul>
@@ -67,69 +73,99 @@
 
   <div class="slide"><h2><span class="n">7</span>Three problems</h2><ul>
     <li><span class="say">"That boils down to three problems to solve: reach her at the right moment in the right channel, let her act without any setup homework, and earn enough trust that she can actually let go."</span></li>
-    <li><span class="say">"One system answers all three — that's what the rest of this is."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">8</span>Explored wide</h2><ul>
-    <li>Don't read this slide — gesture at it. <span class="say">"We went wide first: 18 ideas, from tiny tweaks to full agentic copilots, each one traced to a real product doing it today."</span></li>
+  <div class="slide"><h2><span class="n">8</span>Five design principles <span class="brd">board 13</span></h2><ul>
+    <li><span class="say">"Before any ideas, I turned her problems into five principles — these are the judges for everything that follows."</span></li>
+    <li>Walk them fast, one line each: <span class="say">"Minimal disruption — only what truly needs her breaks through; everything else waits. Effortless efficiency — understand and act in one tap, zero setup. Right moment, right channel — reach her by severity and context, not by the clock. Meaningful control — see, adjust, reverse; control that builds trust, not config work. And transparency earns confidence — always show what the AI did and why."</span></li>
+    <li>The shape of it: <span class="say">"Notice the tension — minimal disruption and effortless efficiency pull against each other. Meaningful control is what holds them in balance, and transparency is how it earns the right to."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">9</span>Explored wide ("Everything on the table")</h2><ul>
+    <li>Don't read this slide — gesture at it. <span class="say">"With the principles set, we went wide: 18 ideas, from tiny tweaks to full agentic copilots, each one traced to a real product doing it today."</span></li>
     <li><span class="say">"The point of the width was to make the narrowing honest."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">9</span>Scored &amp; narrowed</h2><ul>
+  <div class="slide"><h2><span class="n">10</span>Scored &amp; narrowed</h2><ul>
     <li><span class="say">"Scored on impact, effort and how well it scales. Two winners for now: the triage brain — deciding what matters — and the router — deciding where it goes."</span></li>
-    <li><span class="say">"The copilot scored well too, and I deliberately pushed it later. An assistant you don't trust yet is just another notification. It has to earn its way in."</span> (This is override story #1 territory if anyone asks.)</li>
+    <li><span class="say">"The copilot scored well too, and I deliberately pushed it later. An assistant you don't trust yet is just another notification. It has to earn its way in."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">10</span>The flow</h2><ul>
+  <div class="slide"><h2><span class="n">11</span>The flow</h2><ul>
     <li><span class="say">"The end-to-end flow isn't copied from any one competitor — it's a synthesis, and every piece is cited: PagerDuty's routing spine, iOS's digest-by-default, Gmail's single feed."</span></li>
-    <li><span class="say">"Steal the best pattern for each job, and make them agree with each other."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">11</span>System × channels</h2><ul>
+  <div class="slide"><h2><span class="n">12</span>System × channels</h2><ul>
     <li><span class="say">"This grid is the whole product on one slide. Rows are the system — the eight layers. Columns are delivery — app, desktop, SMS, Slack."</span></li>
     <li>Physically point at the empty cells: <span class="say">"And look at what's empty. Most of this grid is deliberately silent. The calm isn't an absence of design — it is the design."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">12</span>The stack</h2><ul>
+  <div class="slide"><h2><span class="n">13</span>Mara's future journey — the layers to design <span class="brd">board 10</span></h2><ul>
+    <li><span class="say">"Here's her future journey, and it's also the map for the demo. An event fires while she's away — the AI scores and routes it. Critical? It breaks through, wherever she is. She decides and acts on one card — severity, impact, why, one tap. She gets confirmation — 'revoked, user notified', no guessing. Back at the desk she catches up on the triaged feed, checks the activity log to see what the AI did — that's the trust surface — and her day ends with one calm evening summary."</span></li>
+    <li><span class="say">"Each step of that journey is a surface to design — seven now, plus the copilot later. And I'm about to demo it in exactly this order: break-through, native app, desktop, digest."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">14</span>The stack</h2><ul>
     <li><span class="say">"Each layer's final pick, each one tied back to a principle — nothing in here is a vibe."</span></li>
-    <li>Then the pivot, with energy: <span class="say">"That's the theory. Let me show you the real thing."</span> → switch tabs.</li>
+    <li>Then the pivot, with energy: <span class="say">"That's the theory. Let me show you the real thing — in her order, through her day."</span> → switch tabs.</li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">13</span>DEMO (the 4-minute centrepiece)</h2><ul>
-    <li>Narrate what Mara feels, not what you click. Rough script:</li>
-    <li><span class="say">"This is her Monday inbox the old way — 16 notifications, all equal weight. Two of them actually matter. Find them."</span> (pause a beat) <span class="say">"Exactly."</span> Then flip the toggle: <span class="say">"Same morning, with Signal: three need her, 118 handled without her."</span></li>
-    <li>Act on the security item: <span class="say">"One click to revoke — and undo is right there. Nothing is a leap of faith."</span></li>
-    <li>Log: <span class="say">"Everything the AI did on its own is here, in plain language, reversible. This page is why she can let go."</span></li>
-    <li>Digest tab: <span class="say">"The weekly picture, plus one recommendation she can apply in a tap — and it logs itself."</span></li>
-    <li>Ask Signal: <span class="say">"And when she has a question, she just asks — the answer links her straight to the item."</span></li>
-    <li>Mobile: <span class="say">"Out of the office at 10:02, only the critical breaks through — trend chart, one confirm, done in 90 seconds. Then nothing until 20:30: one digest ping. Nothing urgent — sleep well. That's the product."</span></li>
+  <div class="slide stage"><h2><span class="n">15 · demo</span>Stage 1 — Break-through (10:02, on site) <span class="brd">boards 39 · 19</span></h2><ul>
+    <li>Start in the mobile view. <span class="say">"It's 10:02, Mara's on site. An external guest just got made admin — the AI scores it critical, and it's the only thing allowed to reach her."</span></li>
+    <li>Channels point <span class="brd">39</span>: <span class="say">"And notice it's not 'the app or nothing'. The same alert atom renders to whatever channel she actually has: SMS as plain text — reply 1 to revoke; Slack as a full interactive card with buttons; WhatsApp as quick-replies. The actions degrade gracefully with the channel — and email deliberately gets no live actions at all, it's only ever the digest."</span></li>
+    <li>Routing line <span class="brd">39</span>: <span class="say">"Severity times context — plus whatever the org already runs — picks where it lands. The enterprise admin gets it through Slack or PagerDuty they already live in."</span></li>
+    <li>Depth-on-demand <span class="brd">19</span>: <span class="say">"The push itself is progressive: glance — one line on the lock screen. Tap — the data: for billing that's the usage trend against the suspension threshold with a countdown; access gets a requests-per-week bar; security gets the sign-in story. Same pattern, per domain. Then confirm — one tap, card on file, no app, no forms."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">14–24</span>Backup screenshots</h2><ul>
-    <li>Only if the live demo dies. Same script as above, one screenshot per beat. Press <b>B</b> to skip past them when the demo worked.</li>
+  <div class="slide stage"><h2><span class="n">15 · demo</span>Stage 2 — Native app (the rich card) <span class="brd">boards 37 · 16 · 31</span></h2><ul>
+    <li>Tap into the card. <span class="say">"On the phone, the app plays two roles: a tripwire for criticals, and a calm catch-up for everything else — never a place she has to manage."</span> <span class="brd">37</span></li>
+    <li>Walk the card <span class="brd">16</span>: <span class="say">"Simple to glance, deep on tap. The AI's narrative in plain English, then the exact 'what changed' — who, granted by whom, what scope. Enough to decide with confidence."</span></li>
+    <li><span class="say">"One tap to act, always reversible — or she can ask Signal a follow-up right here. And she can swipe to the next of her three."</span> <span class="brd">16</span></li>
+    <li>Design rationale, worth saying out loud <span class="brd">31</span>: <span class="say">"Design detail I care about: the card is quiet by design. Colour appears exactly twice — the severity dot, and the one action that matters. Red is reserved for destructive. Everything else is typography and space. Quiet card, loud signal."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">25</span>Audited &amp; refined</h2><ul>
-    <li><span class="say">"I didn't stop at version one. I turned the AI design-critique tools and our competitive research on my own prototype — 17 findings."</span></li>
-    <li><span class="say">"Best catch: my secondary buttons were quietly dismissing alerts while pretending to do something. A trust bug in a product about trust. Fixed, along with contrast, touch targets, a working undo. Three versions in, same URL."</span></li>
+  <div class="slide stage"><h2><span class="n">15 · demo</span>Stage 3 — Desktop (the deep workbench) <span class="brd">boards 38 · 15 · 40 · 17 · 18</span></h2><ul>
+    <li>Switch to desktop. <span class="say">"Back at her desk — this is the deep workbench. The whole stack lives here: triage, decide, confirm, trust, govern, ask."</span> <span class="brd">38</span></li>
+    <li>Flip the before/after toggle first: <span class="say">"This is her Monday the old way — sixteen notifications, all equal weight. Two actually matter. Find them."</span> (pause) <span class="say">"Exactly. Same morning with Signal: three need her, the rest handled or held."</span></li>
+    <li>Select the payroll backlog item <span class="brd">15</span>: <span class="say">"The detail pane carries real depth: the metric — 11 of 12 requests expected, one flagged external contractor — the entity chips, the AI's 'why now' in plain English, and a recommended action: approve the eleven, hold the contractor for review. She's deciding, not reading."</span></li>
+    <li>Act on the security item, then undo: <span class="say">"One click to revoke — and undo is right there. Nothing is a leap of faith."</span></li>
+    <li>Activity log <span class="brd">17</span>: <span class="say">"And this is the page that makes letting go safe: what Signal did and why. Routed the critical to her phone. Auto-approved two joins — known domain, her policy — undoable. Held twelve sign-ins for the digest. Deduped nine identical alerts into one. Every AI decision: visible, explained, reversible. This is the trust gate made concrete."</span></li>
+    <li>Controls drawer: <span class="say">"Control without homework — the AI set these defaults, she can nudge them, and Security is locked out of auto-handling by design."</span></li>
+    <li>Ask Signal <span class="brd">18</span>: <span class="say">"And when she has a question she just asks — 'who has admin access I should review?' — and the answer deep-links straight to the flagged item. Behind it, the data view: 118 things handled without her in 30 days, interruptions down 62% — and a timeline where quiet days stay visibly quiet. We even show the 'nothing' days, because visible silence is what earns trust."</span></li>
+    <li>Honesty beat if there's air <span class="brd">40</span>: <span class="say">"And this build is audited — I ran heuristics against it, found three P1s including secondary buttons that lied, and fixed them. More on that in a minute."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">26</span>AI in my process</h2><ul>
+  <div class="slide stage"><h2><span class="n">15 · demo</span>Stage 4 — Email / digest (20:30) <span class="brd">board 33</span></h2><ul>
+    <li>Digest tab on desktop: <span class="say">"Last surface: the rhythm. One digest, two renderings. At the desk it's a review, not a list — the week at a glance, and a recommendation she can act on: reduce the access-request backlog by 71 percent by mapping the team to the SCIM group — that's 18 fewer manual requests a week. One tap to apply, and yes, it logs itself."</span></li>
+    <li>Switch to mobile, 20:30: <span class="say">"On the phone that same digest is a stat-glance: zero need you, six handled, seven worth knowing. Nothing needed you today."</span></li>
+    <li>The ask + close of the demo: <span class="say">"She can still ask — 'anything for tomorrow?' — nothing urgent. Sleep well. That's the product: her attention back, with receipts."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">16–26</span>Backup screenshots</h2><ul>
+    <li>Only if the live demo dies — they're in the same journey order: break-through (2), native app, desktop (6), digest (3). Same script as above. Press <b>B</b> to skip past them when the demo worked.</li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">27</span>Audited &amp; refined <span class="brd">board 40</span></h2><ul>
+    <li><span class="say">"I didn't stop at version one. I turned the AI design-critique tools and our competitive research on my own prototype — 17 findings, heuristic score 24 out of 40 on the first pass."</span></li>
+    <li><span class="say">"Best catch: my secondary buttons were quietly dismissing alerts while pretending to do something. A trust bug in a product about trust. Fixed, along with contrast, touch targets, a dead undo. Three versions in, same URL."</span></li>
+  </ul></div>
+
+  <div class="slide"><h2><span class="n">28</span>AI in my process</h2><ul>
     <li><span class="say">"So, where did AI help and where did I overrule it? Short version: it accelerated everything and decided nothing at the gates."</span></li>
-    <li>Tell story 1: <span class="say">"It scored 'auto-resolve security alerts' as a top idea — great efficiency numbers. I killed it, because a false auto-resolve on a privilege escalation isn't a UX miss, it's a hidden breach. That one call shaped the tiers, the log, the guardrails."</span></li>
-    <li>Tease story 2: <span class="say">"And even the audit — I triaged all 17 findings myself and rejected the ones that traded Mara's calm for density. Happy to go deeper in Q&amp;A."</span></li>
+    <li>Story 1: <span class="say">"It scored 'auto-resolve security alerts' as a top idea — great efficiency numbers. I killed it, because a false auto-resolve on a privilege escalation isn't a UX miss, it's a hidden breach. That one call shaped the tiers, the log, the guardrails."</span></li>
+    <li>Story 2 tease: <span class="say">"And even the audit — I triaged all 17 findings myself and rejected the ones that traded Mara's calm for density. Happy to go deeper in Q&amp;A."</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">27</span>If we had more time</h2><ul>
+  <div class="slide"><h2><span class="n">29</span>If we had more time</h2><ul>
     <li><span class="say">"What's next is deliberately unglamorous: put this in front of real admins before adding more polish, swap the typed rules for a model behind the same interface, and measure the trust gate — do people actually let go?"</span></li>
   </ul></div>
 
-  <div class="slide"><h2><span class="n">28</span>Close</h2><ul>
+  <div class="slide"><h2><span class="n">30</span>Close</h2><ul>
     <li>Bring it home, slowly: <span class="say">"So — rank by consequence. Deliver by context. Earn trust by showing your work. The prototype's live at the link, the whole process is on the canvas, and I'd love your questions."</span></li>
   </ul></div>
 
   <div class="sect">Appendix (Q&amp;A only — don't present these)</div>
-  <div class="slide"><h2><span class="n">29–32</span>Appendix slides</h2><ul>
+  <div class="slide"><h2><span class="n">31–34</span>Appendix slides</h2><ul>
     <li>Pull up on demand: the brief's six questions answered · framing + prototype walk · component/a11y evidence · mobile audit detail.</li>
     <li><span class="say">"Good question — I actually have a slide on that"</span> is a strong move; use it once, max twice.</li>
   </ul></div>

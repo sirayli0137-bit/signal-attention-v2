@@ -54,16 +54,23 @@ const S_TITLE=`<div class="gen" style="text-align:center;align-items:center;back
 
 const S_PROCESS=`<div class="gen">
   <p class="gt">HOW I RAN IT</p>
-  <h2 style="font-size:40px;margin-top:8px">One master prompt, human at every gate</h2>
-  <div style="display:flex;align-items:center;gap:10px;margin-top:34px;flex-wrap:wrap">
+  <h2 style="font-size:38px;margin-top:8px">Four AI practices, human at every gate</h2>
+  <div style="display:flex;align-items:center;gap:8px;margin-top:22px;flex-wrap:wrap">
     ${['Brief → PRD','Checkpoint A','Journeys → Problems','Checkpoint B','Ideate → Score','Checkpoint C','Flow · IA · Wireframe · Mid-fi','Checkpoint D','Prototype → Audit → v1.3'].map((s,i)=>{
       const gate=s.startsWith('Checkpoint');
-      return `<span style="font-size:14.5px;font-weight:600;padding:9px 14px;border-radius:11px;${gate?'background:#E6F7FD;color:#0A7DA6;border:1.5px solid #13B5EA':'background:#F3F7F9;border:1px solid #E1E8EC'}">${s}</span>${i<8?'<span style="color:#8A949C">→</span>':''}`;
+      return `<span style="font-size:13.5px;font-weight:600;padding:8px 12px;border-radius:11px;${gate?'background:#E6F7FD;color:#0A7DA6;border:1.5px solid #13B5EA':'background:#F3F7F9;border:1px solid #E1E8EC'}">${s}</span>${i<8?'<span style="color:#8A949C">→</span>':''}`;
     }).join('')}
   </div>
-  <p style="font-size:16px;color:var(--ink2);margin-top:30px;line-height:1.6">An MD master-prompt defined the process; <b>AI built between the gates, I decided at every one.</b> Every claim tagged <i>Brief</i> or <i>Assumption</i>; every decision logged.</p>
-  <div style="display:flex;gap:34px;margin-top:26px">
-    ${[['6','checkpoints'],['18','ideas explored'],['26','cited patterns'],['17','audit findings'],['3','prototype versions']].map(([n,l])=>`<div><div style="font-family:Figtree;font-size:38px;font-weight:800;color:var(--primary)">${n}</div><div style="font-size:13px;color:var(--ink3)">${l}</div></div>`).join('')}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin-top:24px">
+    ${[['MASS prompt — the spine','AI broadens and deepens every divergent + convergent phase; I bring the critical, unique creative assessment to steer and navigate at six gates.'],
+       ['Context engineering','The design system + brief overview sit at project level, so every output starts on-brand and on-brief. For other work this context can live above the project — problem-space or global.'],
+       ['Prompt engineering','Maximum context per step, fast — rich briefs given by voice input at each stage.'],
+       ['Automated research & synthesis','Skills + MCPs + screenshot references + auto-validation run comparative research and check outputs against the direction I set.']]
+      .map(([t,d])=>`<div style="background:#F3F7F9;border:1px solid #E1E8EC;border-radius:13px;padding:13px 16px"><div style="font-family:Figtree;font-weight:800;font-size:16px;color:var(--primary)">${t}</div><div style="font-size:13.5px;color:var(--ink2);line-height:1.5;margin-top:4px">${d}</div></div>`).join('')}
+  </div>
+  <div style="display:flex;gap:34px;margin-top:22px;align-items:flex-end">
+    ${[['6','checkpoints'],['18','ideas explored'],['26','cited patterns'],['17','audit findings'],['3','prototype versions']].map(([n,l])=>`<div><div style="font-family:Figtree;font-size:32px;font-weight:800;color:var(--primary)">${n}</div><div style="font-size:12.5px;color:var(--ink3)">${l}</div></div>`).join('')}
+    <div style="font-size:13px;color:var(--ink2);margin-left:auto;max-width:34ch;line-height:1.5"><b>AI built between the gates — I decided at every one.</b> Every claim tagged Brief or Assumption; every decision logged.</div>
   </div>
 </div>`;
 
@@ -71,16 +78,14 @@ const S_DEMO=`<div class="gen">
   <p class="gt">LIVE DEMO · 4 MINUTES</p>
   <h2 style="font-size:40px;margin-top:8px">${'One system, in her hands'}</h2>
   <p style="font-size:20px;margin-top:14px;color:var(--ink2)">→ <b style="color:var(--primary)">${URLP}</b></p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 28px;margin-top:26px;font-size:16.5px;line-height:1.5">
-    <div>1 · <b>The old way ⇄ Signal</b> — 16 equal rows vs 3 that need her</div>
-    <div>5 · <b>Digest tab</b> — the week reviewed; apply the AI recommendation</div>
-    <div>2 · <b>Act + undo</b> — revoke the escalation; reverse it</div>
-    <div>6 · <b>Ask Signal</b> — “who has admin access?” → deep-link to the flagged item</div>
-    <div>3 · <b>Activity log</b> — every AI decision, reversible</div>
-    <div>7 · <b>Mobile</b> — 10:02 critical → 20:30 digest → “sleep well”</div>
-    <div>4 · <b>Controls</b> — Critical-only reshapes the feed live</div>
-    <div style="color:var(--ink3)">(backup screenshots follow if the demo can’t run)</div>
+  <p style="font-size:15px;color:var(--ink2);margin-top:10px">Following Mara’s journey — the same alert atom, surface by surface:</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-top:18px;font-size:16px;line-height:1.5">
+    <div><b style="color:var(--primary)">1 · Break-through</b> — 10:02, on site: only the critical reaches her (push/SMS, wherever she is)</div>
+    <div><b style="color:var(--primary)">3 · Desktop workbench</b> — the old way ⇄ Signal · act + undo · activity log · controls · Ask Signal</div>
+    <div><b style="color:var(--primary)">2 · Native app</b> — the rich card: glance → data → confirm, one tap, reversible</div>
+    <div><b style="color:var(--primary)">4 · Email / digest</b> — 20:30: the day reviewed, apply the recommendation, “sleep well”</div>
   </div>
+  <p style="font-size:13.5px;color:var(--ink3);margin-top:14px">(backup screenshots follow, in the same order, if the demo can’t run)</p>
   <div style="display:flex;gap:34px;margin-top:30px">
     ${[['40 → 3','notifications needing her'],['118','handled without her'],['↓62%','interruptions'],['90 s','critical to resolved']].map(([n,l])=>`<div><div style="font-family:Figtree;font-size:34px;font-weight:800;color:var(--sage)">${n}</div><div style="font-size:13px;color:var(--ink3)">${l}</div></div>`).join('')}
   </div>
@@ -94,29 +99,31 @@ const S_CLOSE=`<div class="gen" style="text-align:center;align-items:center">
 
 const SLIDES=[
  {html:S_TITLE, note:'<b>Land:</b> one sentence — rank by consequence, deliver by context, earn trust by showing your work. Say it once now, once at the end.'},
- {html:S_PROCESS, note:'<b>1′.</b> Your MagicPath process diagram pairs with this. Point at the gates: “AI built between them, I decided at every one.” Then the scoreboard, one breath.'},
+ {html:S_PROCESS, note:'<b>1.5′.</b> Your MagicPath process diagram pairs with this. Four practices: MASS prompt (the gated spine) · context engineering (design system + brief at project level) · prompt engineering (rich context by voice) · automated research & synthesis (skills + MCPs + auto-validation). Land: “AI built between the gates, I decided at every one.”'},
  {img:'slides/s03_frame.png', note:'<b>1.5′.</b> Growth & retention via trust + efficiency. Access · Billing · Security earn interruptions. Context: Atlassian-style admin center — high-stakes, not Xero’s accounting turf.'},
  {img:'slides/s04_archetypes.png', note:'<b>45″.</b> Mara first — if the non-expert owner trusts it hands-off, IT and enterprise get power on top.'},
  {img:'slides/s05_heart.png', note:'<b>45″.</b> HEART-5. Trust & transparency is the GATE; Retention = how much she lets AI carry — the “letting go” metric.'},
  {img:'slides/s06_week.png', note:'<b>2′.</b> The insight slide: ~90% of her week is away from the desk. The CHANNEL, not just the content, is the design. Critical→SMS anywhere · action→one push · routine→digest · triage→desk.'},
  {img:'slides/s07_problems.png', note:'<b>1′.</b> Three problems, one system: right moment/channel · act with no setup · trust enough to let go.'},
+ {img:'slides/s07a_principles.png', note:'<b>45″.</b> Five principles FROM her problems: minimal disruption · effortless efficiency · right moment/right channel · meaningful control · transparency earns confidence. Two forces in balance, held by control that earns trust.'},
  {img:'slides/s08_ideation.png', note:'<b>1′.</b> Diverged wide: 18 ideas, five scales, every one sourced (Mobbin + industry).'},
  {img:'slides/s09_scorecard.png', note:'<b>1′.</b> Scored impact × effort × scalability → A (triage brain) + B (router) now, C (copilot) later. Low-waste foundation C plugs into.'},
  {img:'slides/s10_flow.png', note:'<b>1′.</b> Not one competitor’s pattern — a cited synthesis: PagerDuty routing spine + iOS digest default + Gmail one-feed.'},
  {img:'slides/s11_channels.png', note:'<b>1.5′.</b> L1–L8 are the SYSTEM; app/desktop/SMS/Slack are DELIVERY. Point at the silent cells — the calm is designed.'},
- {img:'slides/s12_stack.png', note:'<b>1′.</b> Every layer’s pick ties back to a principle. Then: “let me show you.”'},
- {html:S_DEMO, note:'<b>4′ — the centrepiece.</b> Switch to the prototype tab. Refresh = clean reset. Follow the 7 beats left to right. If tech fails, arrow forward into the backups.'},
- {img:'demo/d01_oldway.png', backup:true, note:'BACKUP · the old way — 16 equal rows, spot the two that matter.'},
- {img:'demo/d02_feed.png', backup:true, note:'BACKUP · with Signal — 3 need you; severity dot + why + one action.'},
- {img:'demo/d03_confirmed.png', backup:true, note:'BACKUP · acted — inline confirm + undo.'},
- {img:'demo/d04_log.png', backup:true, note:'BACKUP · activity log — every AI decision, reversible.'},
- {img:'demo/d05_drawer.png', backup:true, note:'BACKUP · controls — AI-set defaults, Security locked.'},
- {img:'demo/d06_digest.png', backup:true, note:'BACKUP · digest tab — actionable recommendation, applies + logs.'},
- {img:'demo/d07_copilot.png', backup:true, note:'BACKUP · Ask Signal — answer deep-links to the flagged item.'},
- {img:'demo/d08_mob_lock.png', backup:true, note:'BACKUP · 10:02 — only the critical breaks through.'},
- {img:'demo/d09_mob_card.png', backup:true, note:'BACKUP · the data card — trend vs suspension line, one confirm.'},
- {img:'demo/d10_mob_evening.png', backup:true, note:'BACKUP · 20:30 — one gentle digest ping.'},
- {img:'demo/d11_mob_digest_ask.png', backup:true, note:'BACKUP · digest + copilot: “nothing urgent — sleep well.”'},
+ {img:'slides/s11b_layers.png', note:'<b>45″.</b> Mara’s future journey → the layers to design: event fires away → break-through (L1) → decide & act (L2) → confirm (L3) → catch-up at desk (L4) → trust (L5) → rhythm (L6). 7 surfaces now + copilot later. THIS is the demo’s running order.'},
+ {img:'slides/s12_stack.png', note:'<b>1′.</b> Every layer’s pick ties back to a principle. Then: “let me show you — in her order.”'},
+ {html:S_DEMO, note:'<b>4.5′ — the centrepiece.</b> Prototype tab; refresh = clean reset. Journey order: 1 break-through (mobile 10:02 push) → 2 native app (rich card, confirm) → 3 desktop (old way ⇄ Signal, act+undo, log, controls, Ask) → 4 digest (desktop Next-Up + mobile 20:30). If tech fails, arrow forward — backups are in the same order.'},
+ {img:'demo/d08_mob_lock.png', backup:true, note:'BACKUP · 1 BREAK-THROUGH · 10:02 — only the critical reaches her, wherever she is.'},
+ {img:'demo/d09_mob_card.png', backup:true, note:'BACKUP · 2 NATIVE APP · the rich card — trend vs suspension line, one confirm, reversible.'},
+ {img:'demo/d01_oldway.png', backup:true, note:'BACKUP · 3 DESKTOP · the old way — 16 equal rows, spot the two that matter.'},
+ {img:'demo/d02_feed.png', backup:true, note:'BACKUP · 3 DESKTOP · with Signal — 3 need you; severity dot + why + one action.'},
+ {img:'demo/d03_confirmed.png', backup:true, note:'BACKUP · 3 DESKTOP · acted — inline confirm + undo.'},
+ {img:'demo/d04_log.png', backup:true, note:'BACKUP · 3 DESKTOP · activity log — every AI decision, reversible.'},
+ {img:'demo/d05_drawer.png', backup:true, note:'BACKUP · 3 DESKTOP · controls — AI-set defaults, Security locked.'},
+ {img:'demo/d07_copilot.png', backup:true, note:'BACKUP · 3 DESKTOP · Ask Signal — answer deep-links to the flagged item.'},
+ {img:'demo/d06_digest.png', backup:true, note:'BACKUP · 4 DIGEST · desktop Next-Up — donut, impact tiles, apply the recommendation.'},
+ {img:'demo/d10_mob_evening.png', backup:true, note:'BACKUP · 4 DIGEST · 20:30 — one gentle digest ping.'},
+ {img:'demo/d11_mob_digest_ask.png', backup:true, note:'BACKUP · 4 DIGEST · digest + copilot: “nothing urgent — sleep well.”'},
  {img:'slides/s14_audit.png', note:'<b>1′.</b> I audited my own prototype with design skills + the research — 17 findings, shipped v1.1–v1.3. Design is iteration, evidenced.'},
  {img:'slides/s15_ai.png', note:'<b>1′.</b> The AI story: it accelerated everything, decided nothing at the gates. Anecdotes: auto-resolve security (refused) · its own audit (I still overrode two findings).'},
  {img:'slides/s16_moretime.png', note:'<b>30″.</b> Next: real admins before more polish; model behind the same interface; measure the trust gate.'},

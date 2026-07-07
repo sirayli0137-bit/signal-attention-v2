@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Signal — presentation deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#12232E;--ink2:#566773;--ink3:#66717A;--line:#E1E8EC;--brand:#13B5EA;--primary:#0A7DA6;--accent:#E6F7FD;--paper:#F6F8F9;--sage:#177E5D;--critical:#D93036}
+  *{box-sizing:border-box} html,body{margin:0;height:100%}
+  body{font-family:'Inter',system-ui,sans-serif;background:#0E1B23;color:var(--ink);overflow:hidden}
+  h1,h2,h3{font-family:'Figtree',system-ui,sans-serif;font-weight:800;letter-spacing:-.02em;margin:0}
+  .stagewrap{position:fixed;inset:0;display:grid;place-items:center;padding:18px}
+  .slide{width:min(96vw,calc(96vh*1.9));aspect-ratio:1.9/1;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 80px -20px rgba(0,0,0,.6);position:relative}
+  .slide img{width:100%;height:100%;object-fit:contain;background:#fff;display:block}
+  .gen{height:100%;display:flex;flex-direction:column;justify-content:center;padding:6% 8%}
+  .badge{position:absolute;top:14px;right:16px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:14px}
+  .badge.backup{background:#FFF3E6;color:#9A6200;border:1px solid #E8CBA2}
+  .badge.appendix{background:var(--accent);color:var(--primary);border:1px solid #A9E0F5}
+  .hud{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:10px 16px;pointer-events:none}
+  .count{font-size:12px;color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums;background:rgba(255,255,255,.1);border-radius:10px;padding:5px 10px}
+  .keys{font-size:11px;color:rgba(255,255,255,.45)}
+  .notes{position:fixed;left:50%;transform:translateX(-50%);bottom:44px;max-width:860px;width:90vw;background:rgba(10,20,26,.92);color:#EAF2F6;border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:12px 16px;font-size:14px;line-height:1.5;display:none}
+  .notes.show{display:block}
+  .notes b{color:#7FD8F5}
+  .gt{font-size:15px;font-weight:600;color:var(--primary);letter-spacing:.02em}
+  .mark{display:inline-grid;place-items:center;height:44px;width:44px;border-radius:12px;background:var(--brand)}
+  @media print{ body{overflow:visible;background:#fff} .hud,.notes{display:none!important} .stagewrap{position:static;display:block;padding:0} .slide{width:100%;aspect-ratio:auto;height:100vh;border-radius:0;box-shadow:none;page-break-after:always} }
+</style>
+</head>
+<body>
+<div class="stagewrap"><div class="slide" id="stage"></div></div>
+<div class="hud">
+  <span class="keys">← → navigate · F fullscreen · N notes · B jump past backups</span>
+  <span class="count" id="count"></span>
+</div>
+<div class="notes" id="notes"></div>
+
+<script>
+"use strict";
+const GOLD='Rank by consequence. Deliver by context. Earn trust by showing your work.';
+const URLP='sirayli0137-bit.github.io/signal-attention-v2';
+
+const S_TITLE=`<div class="gen" style="text-align:center;align-items:center;background:linear-gradient(150deg,#0C6E7A 0%,#13B5EA 60%,#4FC3E8 100%);color:#fff">
+  <span class="mark" style="background:rgba(255,255,255,.2)"><svg width="22" height="22" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>
+  <h1 style="font-size:64px;color:#fff;margin-top:22px">Signal</h1>
+  <p style="font-size:24px;margin:10px 0 0;opacity:.92">Regain meaningful control over your attention</p>
+  <p style="font-size:17px;margin:34px 0 0;font-weight:600;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:26px;padding:12px 26px">${GOLD}</p>
+  <p style="font-size:14px;opacity:.75;margin:30px 0 0">Siray Li · Product Design · notifications for an org Admin Center</p>
+</div>`;
+
+const S_PROCESS=`<div class="gen">
+  <p class="gt">HOW I RAN IT</p>
+  <h2 style="font-size:40px;margin-top:8px">One master prompt, human at every gate</h2>
+  <div style="display:flex;align-items:center;gap:10px;margin-top:34px;flex-wrap:wrap">
+    ${['Brief → PRD','Checkpoint A','Journeys → Problems','Checkpoint B','Ideate → Score','Checkpoint C','Flow · IA · Wireframe · Mid-fi','Checkpoint D','Prototype → Audit → v1.3'].map((s,i)=>{
+      const gate=s.startsWith('Checkpoint');
+      return `<span style="font-size:14.5px;font-weight:600;padding:9px 14px;border-radius:11px;${gate?'background:#E6F7FD;color:#0A7DA6;border:1.5px solid #13B5EA':'background:#F3F7F9;border:1px solid #E1E8EC'}">${s}</span>${i<8?'<span style="color:#8A949C">→</span>':''}`;
+    }).join('')}
+  </div>
+  <p style="font-size:16px;color:var(--ink2);margin-top:30px;line-height:1.6">An MD master-prompt defined the process; <b>AI built between the gates, I decided at every one.</b> Every claim tagged <i>Brief</i> or <i>Assumption</i>; every decision logged.</p>
+  <div style="display:flex;gap:34px;margin-top:26px">
+    ${[['6','checkpoints'],['18','ideas explored'],['26','cited patterns'],['17','audit findings'],['3','prototype versions']].map(([n,l])=>`<div><div style="font-family:Figtree;font-size:38px;font-weight:800;color:var(--primary)">${n}</div><div style="font-size:13px;color:var(--ink3)">${l}</div></div>`).join('')}
+  </div>
+</div>`;
+
+const S_DEMO=`<div class="gen">
+  <p class="gt">LIVE DEMO · 4 MINUTES</p>
+  <h2 style="font-size:40px;margin-top:8px">${'One system, in her hands'}</h2>
+  <p style="font-size:20px;margin-top:14px;color:var(--ink2)">→ <b style="color:var(--primary)">${URLP}</b></p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 28px;margin-top:26px;font-size:16.5px;line-height:1.5">
+    <div>1 · <b>The old way ⇄ Signal</b> — 16 equal rows vs 3 that need her</div>
+    <div>5 · <b>Digest tab</b> — the week reviewed; apply the AI recommendation</div>
+    <div>2 · <b>Act + undo</b> — revoke the escalation; reverse it</div>
+    <div>6 · <b>Ask Signal</b> — “who has admin access?” → deep-link to the flagged item</div>
+    <div>3 · <b>Activity log</b> — every AI decision, reversible</div>
+    <div>7 · <b>Mobile</b> — 10:02 critical → 20:30 digest → “sleep well”</div>
+    <div>4 · <b>Controls</b> — Critical-only reshapes the feed live</div>
+    <div style="color:var(--ink3)">(backup screenshots follow if the demo can’t run)</div>
+  </div>
+  <div style="display:flex;gap:34px;margin-top:30px">
+    ${[['40 → 3','notifications needing her'],['118','handled without her'],['↓62%','interruptions'],['90 s','critical to resolved']].map(([n,l])=>`<div><div style="font-family:Figtree;font-size:34px;font-weight:800;color:var(--sage)">${n}</div><div style="font-size:13px;color:var(--ink3)">${l}</div></div>`).join('')}
+  </div>
+</div>`;
+
+const S_CLOSE=`<div class="gen" style="text-align:center;align-items:center">
+  <h2 style="font-size:44px;max-width:20ch">${GOLD}</h2>
+  <p style="font-size:17px;color:var(--ink2);margin-top:26px;line-height:1.7">Prototype · <b style="color:var(--primary)">${URLP}</b><br>Process & evidence · MagicPath canvas (47 boards) · Q&A appendix follows</p>
+  <p style="font-size:14px;color:var(--ink3);margin-top:30px">Siray Li — thank you</p>
+</div>`;
+
+const SLIDES=[
+ {html:S_TITLE, note:'<b>Land:</b> one sentence — rank by consequence, deliver by context, earn trust by showing your work. Say it once now, once at the end.'},
+ {html:S_PROCESS, note:'<b>1′.</b> Your MagicPath process diagram pairs with this. Point at the gates: “AI built between them, I decided at every one.” Then the scoreboard, one breath.'},
+ {img:'slides/s03_frame.png', note:'<b>1.5′.</b> Growth & retention via trust + efficiency. Access · Billing · Security earn interruptions. Context: Atlassian-style admin center — high-stakes, not Xero’s accounting turf.'},
+ {img:'slides/s04_archetypes.png', note:'<b>45″.</b> Mara first — if the non-expert owner trusts it hands-off, IT and enterprise get power on top.'},
+ {img:'slides/s05_heart.png', note:'<b>45″.</b> HEART-5. Trust & transparency is the GATE; Retention = how much she lets AI carry — the “letting go” metric.'},
+ {img:'slides/s06_week.png', note:'<b>2′.</b> The insight slide: ~90% of her week is away from the desk. The CHANNEL, not just the content, is the design. Critical→SMS anywhere · action→one push · routine→digest · triage→desk.'},
+ {img:'slides/s07_problems.png', note:'<b>1′.</b> Three problems, one system: right moment/channel · act with no setup · trust enough to let go.'},
+ {img:'slides/s08_ideation.png', note:'<b>1′.</b> Diverged wide: 18 ideas, five scales, every one sourced (Mobbin + industry).'},
+ {img:'slides/s09_scorecard.png', note:'<b>1′.</b> Scored impact × effort × scalability → A (triage brain) + B (router) now, C (copilot) later. Low-waste foundation C plugs into.'},
+ {img:'slides/s10_flow.png', note:'<b>1′.</b> Not one competitor’s pattern — a cited synthesis: PagerDuty routing spine + iOS digest default + Gmail one-feed.'},
+ {img:'slides/s11_channels.png', note:'<b>1.5′.</b> L1–L8 are the SYSTEM; app/desktop/SMS/Slack are DELIVERY. Point at the silent cells — the calm is designed.'},
+ {img:'slides/s12_stack.png', note:'<b>1′.</b> Every layer’s pick ties back to a principle. Then: “let me show you.”'},
+ {html:S_DEMO, note:'<b>4′ — the centrepiece.</b> Switch to the prototype tab. Refresh = clean reset. Follow the 7 beats left to right. If tech fails, arrow forward into the backups.'},
+ {img:'demo/d01_oldway.png', backup:true, note:'BACKUP · the old way — 16 equal rows, spot the two that matter.'},
+ {img:'demo/d02_feed.png', backup:true, note:'BACKUP · with Signal — 3 need you; severity dot + why + one action.'},
+ {img:'demo/d03_confirmed.png', backup:true, note:'BACKUP · acted — inline confirm + undo.'},
+ {img:'demo/d04_log.png', backup:true, note:'BACKUP · activity log — every AI decision, reversible.'},
+ {img:'demo/d05_drawer.png', backup:true, note:'BACKUP · controls — AI-set defaults, Security locked.'},
+ {img:'demo/d06_digest.png', backup:true, note:'BACKUP · digest tab — actionable recommendation, applies + logs.'},
+ {img:'demo/d07_copilot.png', backup:true, note:'BACKUP · Ask Signal — answer deep-links to the flagged item.'},
+ {img:'demo/d08_mob_lock.png', backup:true, note:'BACKUP · 10:02 — only the critical breaks through.'},
+ {img:'demo/d09_mob_card.png', backup:true, note:'BACKUP · the data card — trend vs suspension line, one confirm.'},
+ {img:'demo/d10_mob_evening.png', backup:true, note:'BACKUP · 20:30 — one gentle digest ping.'},
+ {img:'demo/d11_mob_digest_ask.png', backup:true, note:'BACKUP · digest + copilot: “nothing urgent — sleep well.”'},
+ {img:'slides/s14_audit.png', note:'<b>1′.</b> I audited my own prototype with design skills + the research — 17 findings, shipped v1.1–v1.3. Design is iteration, evidenced.'},
+ {img:'slides/s15_ai.png', note:'<b>1′.</b> The AI story: it accelerated everything, decided nothing at the gates. Anecdotes: auto-resolve security (refused) · its own audit (I still overrode two findings).'},
+ {img:'slides/s16_moretime.png', note:'<b>30″.</b> Next: real admins before more polish; model behind the same interface; measure the trust gate.'},
+ {html:S_CLOSE, note:'<b>Close on the golden thread.</b> Then invite questions — appendix slides follow.'},
+ {img:'slides/a1_brief6.png', appendix:true, note:'Q&A · the brief’s six questions, answered.'},
+ {img:'slides/a2_pres1.png', appendix:true, note:'Q&A · framing + the prototype walk.'},
+ {img:'slides/a3_a11y.png', appendix:true, note:'Q&A · components + accessibility evidence.'},
+ {img:'slides/a4_mobaudit.png', appendix:true, note:'Q&A · mobile audit detail.'},
+];
+
+let i=Math.max(0,Math.min(SLIDES.length-1,(parseInt(location.hash.slice(1),10)||1)-1));
+let showNotes=false;
+const stage=document.getElementById('stage'), count=document.getElementById('count'), notes=document.getElementById('notes');
+function draw(){
+  const s=SLIDES[i];
+  stage.innerHTML=(s.img?`<img src="${s.img}" alt="slide ${i+1}">`:s.html)
+    +(s.backup?'<span class="badge backup">Backup</span>':'')+(s.appendix?'<span class="badge appendix">Q&A appendix</span>':'');
+  count.textContent=(i+1)+' / '+SLIDES.length;
+  notes.innerHTML=s.note||''; notes.classList.toggle('show',showNotes&&!!s.note);
+  location.hash=i+1;
+}
+function go(d){ i=Math.max(0,Math.min(SLIDES.length-1,i+d)); draw(); }
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown') go(1);
+  else if(e.key==='ArrowLeft'||e.key==='PageUp') go(-1);
+  else if(e.key==='Home'){i=0;draw();}
+  else if(e.key==='End'){i=SLIDES.length-1;draw();}
+  else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key.toLowerCase()==='n'){showNotes=!showNotes;draw();}
+  else if(e.key.toLowerCase()==='b'){ // jump past backups
+    const n=SLIDES.findIndex((s,k)=>k>i&&!s.backup); if(n>0){i=n;draw();}
+  }
+});
+document.addEventListener('click',e=>{ if(e.clientX>innerWidth/2) go(1); else go(-1); });
+// print mode: render all slides stacked
+if(new URLSearchParams(location.search).has('print')){
+  document.querySelector('.stagewrap').innerHTML=SLIDES.map((s,k)=>`<div class="slide">${s.img?`<img src="${s.img}">`:s.html}</div>`).join('');
+  document.querySelector('.hud').style.display='none';
+}else{ draw(); }
+</script>
+</body>
+</html>

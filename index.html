@@ -108,6 +108,34 @@
   .allclear .g .n{font-size:24px;font-weight:700;font-family:var(--head)}
   .allclear .g .l{font-size:11px;color:var(--ink2);margin-top:2px}
   .dfoot{margin-top:auto;padding-top:14px}
+
+  /* digest pane (L6) */
+  .dsplit{display:grid;grid-template-columns:300px 1fr;min-height:560px}
+  .dlist{border-right:1px solid var(--line);padding:14px}
+  .ditem{width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-bottom:8px;background:#fff;transition:border-color .15s}
+  .ditem:hover{border-color:var(--ink3)}
+  .ditem.sel{border:1.5px solid var(--brand);background:var(--accent)}
+  .ditem h4{font-size:12.5px;line-height:1.3;margin:0}
+  .ditem p{font-size:11px;color:var(--ink2);margin:4px 0 0;line-height:1.35}
+  .dtag{display:inline-block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;border:1px solid;border-radius:5px;padding:1.5px 6px;margin-top:7px}
+
+  /* copilot pane (L8) */
+  .cop{display:grid;grid-template-columns:.95fr 1.05fr;gap:16px;padding:16px;min-height:560px}
+  .cophero{border-radius:16px;background:linear-gradient(150deg,#0C6E7A 0%,#13B5EA 60%,#4FC3E8 100%);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:30px;text-align:center}
+  .copask{margin-top:20px;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.3);border-radius:24px;padding:10px 16px;backdrop-filter:blur(4px)}
+  .copask input{flex:1;border:none;background:none;outline:none;font-family:inherit;font-size:13.5px;color:#fff}
+  .copask input::placeholder{color:rgba(255,255,255,.85)}
+  .copask .slash{font-size:11px;border:1px solid rgba(255,255,255,.4);border-radius:6px;padding:1px 6px;color:rgba(255,255,255,.85)}
+  .copchip{margin-top:8px;font-size:13.5px;color:#fff;padding:8px;border-radius:10px}
+  .copchip:hover{background:rgba(255,255,255,.15)}
+  .copanswer{margin-top:16px;background:#fff;color:var(--ink);border-radius:14px;padding:14px 16px;text-align:left;box-shadow:var(--shadow)}
+  .copright{display:flex;flex-direction:column;gap:14px}
+  .copcard{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+  .copday{height:28px;width:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:11.5px;font-weight:700;flex:none}
+  .copday.ghost{background:var(--paper2);color:var(--ink3);border:1px solid var(--line)}
+  .coppill{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;background:var(--paper2);border:1px solid var(--line);border-radius:20px;padding:4px 6px 4px 11px}
+  .copdot{height:14px;width:14px;border-radius:50%}
+  @media (max-width:900px){ .dsplit{grid-template-columns:1fr} .dlist{border-right:none;border-bottom:1px solid var(--line)} .cop{grid-template-columns:1fr} }
   .askbar{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:9px 13px;color:var(--ink3);font-size:12.5px;background:#fff}
   .askbar .send{margin-left:auto;display:flex;gap:10px;align-items:center;font-size:13px}
 
@@ -226,6 +254,8 @@
         <span class="title"><span class="mark" style="display:grid;place-items:center;height:22px;width:22px;border-radius:7px;background:var(--brand)"><svg width="11" height="11" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>Administration</span>
         <div class="tabs" role="tablist" aria-label="Console sections">
           <button id="tabFeed" class="sel" role="tab" aria-selected="true" aria-controls="feedPane">Needs you now<span class="n" id="needCount">3</span></button>
+          <button id="tabDigest" role="tab" aria-selected="false" aria-controls="digestPane">Digest</button>
+          <button id="tabCopilot" role="tab" aria-selected="false" aria-controls="copilotPane">✦ Ask Signal</button>
           <button id="tabLog" role="tab" aria-selected="false" aria-controls="logPane">Activity log</button>
         </div>
         <button class="ctrbtn" id="openCtl" aria-haspopup="dialog">⚙ What may interrupt me</button>
@@ -254,6 +284,62 @@
         </div>
         <p style="font-size:11.5px;color:var(--ink3);margin-top:10px">Every AI decision is recorded, explained, and reversible — this is the trust surface.</p>
       </div>
+
+      <!-- digest (L6) -->
+      <div class="dsplit hidden" id="digestPane">
+        <aside class="dlist" aria-label="Digest items">
+          <div class="tierhead"><span class="bar" style="background:var(--indigo)"></span><b>This week</b><span class="n" id="digCount">3</span></div>
+          <div id="digList"></div>
+          <p style="font-size:11px;color:var(--ink3);margin-top:10px">Batched on your rhythm — nothing here ever interrupted you.</p>
+        </aside>
+        <section class="detail" id="digDetail"></section>
+      </div>
+
+      <!-- copilot (L8) -->
+      <div class="cop hidden" id="copilotPane">
+        <div class="cophero">
+          <svg width="24" height="24" viewBox="0 0 13 13" style="margin:0 auto 14px;opacity:.9"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg>
+          <h2 style="font-size:26px;color:#fff">Good morning, Mara</h2>
+          <p style="font-size:13px;opacity:.85;margin:4px 0 0">Let’s make sense of your org.</p>
+          <div class="copask">
+            <input id="copInput" placeholder="Ask anything about your org" aria-label="Ask Signal anything" />
+            <span class="slash">/</span>
+          </div>
+          <p style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin:16px 0 0">Ideas to explore</p>
+          <button class="copchip" id="copChip">“Who has admin access I should review?”</button>
+          <div class="copanswer hidden" id="copAnswer" role="status">
+            <p style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.06em">✦ Signal</p>
+            <p style="font-size:13px;margin:6px 0 0;line-height:1.5"><b>3 accounts</b> hold full admin: you · m.chen · <b style="color:var(--critical)">j.rivera (guest — flagged today)</b>.</p>
+            <button class="btn primary" id="copGo" style="margin-top:10px;font-size:12px">Review in the feed →</button>
+          </div>
+        </div>
+        <div class="copright">
+          <div class="copcard">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="font-family:var(--head);font-weight:700;font-size:14px">Last 30 days ›</span>
+              <span style="display:inline-flex;border:1px solid var(--line);border-radius:20px;overflow:hidden"><span style="height:26px;width:30px;display:grid;place-items:center;font-size:11px;color:var(--ink3);border-right:1px solid var(--line)">⟳</span><span style="height:26px;width:30px;display:grid;place-items:center;font-size:11px">⌁</span></span>
+            </div>
+            <svg viewBox="0 0 320 96" style="width:100%;height:100px;margin-top:6px">
+              <polyline points="8,84 52,83 52,63 78,62 78,45 118,44 118,26 158,25 196,25 196,18 226,18 226,50 258,50 258,26 296,25 312,25" fill="none" stroke="var(--sage)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="8" cy="84" r="4" fill="var(--sage)"/><circle cx="312" cy="25" r="4" fill="var(--sage)"/>
+            </svg>
+            <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink3)"><span>Jun 5</span><span>Jul 5</span></div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--line)">
+              <div><p style="font-size:11px;color:var(--ink3);margin:0">Handled without you</p><p style="font-size:26px;font-weight:700;font-family:var(--head);margin:2px 0 0" class="tnum">118</p></div>
+              <div style="text-align:right;font-size:13px" class="tnum"><p style="margin:0"><span style="color:var(--ink3)">+ </span><b>112</b> <span style="font-size:11px;color:var(--ink3)">auto-handled</span></p><p style="margin:4px 0 0"><span style="color:var(--ink3)">− </span><b>6</b> <span style="font-size:11px;color:var(--ink3)">interruptions (↓62%)</span></p></div>
+            </div>
+          </div>
+          <div class="copcard" style="flex:1">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><span style="font-size:13px;font-weight:600">Timeline</span><span style="font-size:11px;color:var(--ink3)">Manage</span></div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:11px"><span class="copday ghost">17</span><span style="font-size:12px;color:var(--ink3)">Nothing</span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span class="copday">18</span><span class="coppill">Access approved<span class="copdot" style="background:var(--primary)"></span></span><span class="coppill">Security flagged<span class="copdot" style="background:var(--critical)"></span></span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span class="copday ghost">19</span><span style="font-size:12px;color:var(--ink3)">Nothing</span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span class="copday">20</span><span class="coppill">Billing retried<span class="copdot" style="background:var(--amber)"></span></span><span class="coppill">6 auto-handled<span class="copdot" style="background:var(--sage)"></span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -261,7 +347,7 @@
   <main class="stage hidden" id="mobView">
     <div class="mstage">
       <div class="phone">
-        <div class="statusbar"><span>10:02</span><span>✦ Signal</span></div>
+        <div class="statusbar"><span id="mClock">10:02</span><span>✦ Signal</span></div>
         <div class="screen" id="mScreen"></div>
       </div>
       <div>
@@ -271,6 +357,8 @@
           <div class="s on" data-s="0"><span class="num">1</span><div><b>Glance</b><p>One line on the lock screen: “Payment failed.” Tap <i>Review &amp; fix</i>.</p></div></div>
           <div class="s" data-s="1"><span class="num">2</span><div><b>The data</b><p>The card unfolds: usage trend vs the suspension line + 3-day countdown.</p></div></div>
           <div class="s" data-s="2"><span class="num">3</span><div><b>Confirm</b><p>One tap retries with the card on file. Reversible, logged.</p></div></div>
+          <div class="s" data-s="3"><span class="num">4</span><div><b>Evening digest · L6</b><p>20:30 — one gentle ping: “0 need you.” The day’s noise, batched.</p></div></div>
+          <div class="s" data-s="4"><span class="num">5</span><div><b>Ask Signal · L8</b><p>“Anything for tomorrow?” — the copilot answers from the digest.</p></div></div>
         </div>
         <button class="reset" id="mReset">↺ Restart the flow</button>
       </div>
@@ -511,17 +599,99 @@ document.addEventListener('click',e=>{
   }
 });
 
-/* tabs */
-$('#tabFeed').onclick=()=>{swapTab(true)};
-$('#tabLog').onclick=()=>{swapTab(false)};
-function swapTab(feed){
-  $('#feedPane').classList.toggle('hidden',!feed);
-  $('#logPane').classList.toggle('hidden',feed);
-  $('#tabFeed').classList.toggle('sel',feed);
-  $('#tabLog').classList.toggle('sel',!feed);
-  $('#tabFeed').setAttribute('aria-selected',feed);
-  $('#tabLog').setAttribute('aria-selected',!feed);
+/* tabs — feed · digest · copilot · log */
+const PANES={Feed:'feedPane',Digest:'digestPane',Copilot:'copilotPane',Log:'logPane'};
+function swapTab(name){
+  Object.entries(PANES).forEach(([k,id])=>{
+    document.getElementById(id).classList.toggle('hidden',k!==name);
+    const t=document.getElementById('tab'+k);
+    t.classList.toggle('sel',k===name);
+    t.setAttribute('aria-selected',k===name);
+  });
+  if(name==='Digest') renderDigest();
 }
+Object.keys(PANES).forEach(k=>{ document.getElementById('tab'+k).onclick=()=>swapTab(k); });
+
+/* ---------- digest (L6) — the desk-window review ---------- */
+const DIGEST=[
+ {id:'week',tag:'Summary',tone:'var(--indigo)',title:'Weekly digest — all clear',sub:'13 events triaged; nothing needed you overnight.'},
+ {id:'backlog',tag:'Recommended',tone:'var(--sage)',title:'Reduce access-request backlog by 71%',sub:'Most pending requests are from your verified domain.'},
+ {id:'seats',tag:'Worth knowing',tone:'var(--ink3)',title:'Seat usage trending to plan limit',sub:'78% used · growing ~4% per week.'},
+];
+let digSel='week', digApplied=false;
+function digestDetail(){
+  if(digSel==='week') return `
+    <div class="dmeta"><span class="dot" style="background:var(--indigo)"></span><span class="sev" style="color:var(--indigo)">Summary</span><span style="color:var(--ink3)">· this week · batched at 9:00</span><span class="ai">L6 · DIGEST</span></div>
+    <h2>Weekly digest — all clear</h2>
+    <div class="tiles">
+      <div class="tile donut">${DONUT(94,'var(--sage)')}<div><div class="big tnum">94%</div><div class="sub">handled by AI</div></div></div>
+      <div class="tile"><div class="lab">Interruptions this week</div><div class="big tnum">↓2</div><div class="sub">from 9 avg.</div></div>
+      <div class="tile"><div class="lab">Pending on you</div><div class="big tnum" style="color:var(--sage)">0</div><div class="sub">all clear</div></div>
+    </div>
+    <p class="why"><span class="k">This week</span>13 events: <b>6 auto-approved joins</b> (known domain), 4 routine sign-in batches deduped, 2 reports filed, 1 backup cycle. Nothing waited on you.</p>
+    <div class="dfoot"><div class="askbar">✦ Ask Signal about this week<span class="send">＋ ⚙ <span style="border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:11px">/</span></span></div></div>`;
+  if(digSel==='backlog') return `
+    <div class="dmeta"><span class="dot" style="background:var(--sage)"></span><span class="sev" style="color:var(--sage)">Recommended</span><span style="color:var(--ink3)">· Access</span><span class="ai">AI RECOMMENDED</span></div>
+    <h2>Reduce access-request backlog by 71%</h2>
+    <div class="tiles">
+      <div class="tile donut">${DONUT(71,'var(--sage)')}<div><div class="big tnum">71%</div><div class="sub">of requests<br><i>potential reduction ↘</i></div></div></div>
+      <div class="tile"><div class="lab">Estimated reduction in manual requests</div><div class="big tnum">↓18</div><div class="sub">less per week avg.</div></div>
+      <div class="entities">
+        <div class="ent"><span class="ic" style="background:var(--brand)">◆</span><div><b>meridian-dev</b><small>Jira instance</small></div></div>
+        <div class="ent"><span class="ic" style="background:var(--ink)">👥</span><div><b>all-employees</b><small>SCIM-synced group</small></div></div>
+      </div>
+    </div>
+    <p class="why"><span class="k">Why</span>There are <b>121 pending access requests</b> (+18/week) for meridian-dev — it isn’t mapped to your SCIM group, so people request access one by one. <b>Recommendation:</b> assign app access to <b>all-employees</b>.</p>
+    ${digApplied
+      ? `<div class="confirmed"><span class="ck">✓</span><div><b>Assigned to all-employees</b><small>backlog clearing · recorded in the activity log</small></div><button class="undo" id="digUndo">Undo ↺</button></div>`
+      : `<div class="acts"><button class="btn primary" id="digApply">Assign to all-employees SCIM group</button><button class="btn quiet" id="digDismiss">Dismiss</button></div>`}
+    <div class="dfoot"><div class="askbar">✦ Ask Signal, @mention, or / for actions<span class="send">＋ ⚙ <span style="border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:11px">/</span></span></div></div>`;
+  return `
+    <div class="dmeta"><span class="dot" style="background:var(--ink3)"></span><span class="sev" style="color:var(--ink2)">Worth knowing</span><span style="color:var(--ink3)">· Users</span><span class="ai">L6 · DIGEST</span></div>
+    <h2>Seat usage trending to plan limit</h2>
+    <div class="tiles">
+      <div class="tile"><div class="lab">Seats used</div><div class="big tnum">78%</div><div class="sub">111 of 142</div></div>
+      <div class="tile"><div class="lab">Trend</div><div class="big tnum">+4%</div><div class="sub">per week</div></div>
+      <div class="tile"><div class="lab">At this rate</div><div class="big tnum">~Aug 9</div><div class="sub">plan limit reached</div></div>
+    </div>
+    <p class="why"><span class="k">Why it waited</span>Informational — no action needed yet. Signal will move this to <b>Needs you now</b> if usage passes 85% or the renewal window opens.</p>
+    <div class="acts"><button class="btn quiet" id="digRemind">Remind me at 85%</button></div>
+    <div class="dfoot"><div class="askbar">✦ Ask Signal, @mention, or / for actions<span class="send">＋ ⚙ <span style="border:1px solid var(--line);border-radius:6px;padding:0 6px;font-size:11px">/</span></span></div></div>`;
+}
+function renderDigest(){
+  const list=$('#digList'); list.innerHTML='';
+  DIGEST.forEach(d=>{
+    const b=document.createElement('button');
+    b.className='ditem'+(digSel===d.id?' sel':'');
+    if(digSel===d.id) b.setAttribute('aria-current','true');
+    b.innerHTML=`<h4>${d.title}</h4><p>${d.sub}</p><span class="dtag" style="color:${d.tone};border-color:color-mix(in srgb,${d.tone} 45%,white)">${d.tag}</span>`;
+    b.onclick=()=>{digSel=d.id;renderDigest();};
+    list.appendChild(b);
+  });
+  $('#digDetail').innerHTML=digestDetail();
+  const ap=$('#digApply');
+  if(ap) ap.onclick=()=>{
+    digApplied=true;
+    state.log.unshift({id:++state.seq,t:'now',a:'Assigned meridian-dev to all-employees SCIM',w:'Backlog recommendation applied from the digest',af:'Access',tone:'var(--sage)',undo:true});
+    announce('Assigned to all-employees. Backlog clearing. Recorded in the activity log.');
+    toast('Assigned — backlog clearing',()=>{digApplied=false;state.log.shift();renderDigest();renderLog();});
+    renderDigest();renderLog();
+  };
+  const du=$('#digUndo'); if(du) du.onclick=()=>{digApplied=false;state.log.shift();announce('Assignment undone.');renderDigest();renderLog();};
+  const dd=$('#digDismiss'); if(dd) dd.onclick=()=>{toast('Dismissed — it will resurface next week');};
+  const dr=$('#digRemind'); if(dr) dr.onclick=()=>{toast('Noted — Signal will interrupt at 85% usage');announce('Reminder set at 85 percent usage.');};
+}
+
+/* ---------- copilot (L8) ---------- */
+function runAsk(){
+  const v=$('#copInput').value.trim();
+  if(!v) return;
+  $('#copAnswer').classList.remove('hidden');
+  announce('Signal answered: 3 accounts hold full admin; j.rivera is flagged.');
+}
+$('#copChip').onclick=()=>{$('#copInput').value='Who has admin access I should review?';runAsk();};
+$('#copInput').addEventListener('keydown',e=>{if(e.key==='Enter')runAsk();});
+$('#copGo').onclick=()=>{state.filter='all';state.sel='sec';render();swapTab('Feed');};
 
 /* drawer */
 const drawer=$('#drawer'),scrim=$('#scrim');
@@ -603,10 +773,56 @@ function mRender(){
       <h3>Payment retried</h3>
       <p>Access secured for <b>142 members</b>.<br>Receipt filed · recorded in the activity log.</p>
       <button class="undo" id="mUndo">Undo ↺</button>
-      <p style="margin-top:22px;font-size:11px;color:var(--ink3)">Back to your day — Signal is watching.</p>
+      <p style="margin-top:18px;font-size:11px;color:var(--ink3)">Back to your day — Signal is watching.</p>
+      <button id="mEvening" style="margin-top:14px;font-size:12.5px;font-weight:600;color:#fff;background:var(--ink);padding:11px 18px;border-radius:22px">Later that evening →</button>
     </div>`;
     $('#mUndo').onclick=()=>{mStage=1;mRender();};
+    $('#mEvening').onclick=()=>{mStage=3;mRender();};
   }
+  if(mStage===3){
+    s.innerHTML=`<div class="lock" style="background:linear-gradient(170deg,#16242E,#28394A)">
+      <div class="clock"><div class="t" style="color:#fff">20:30</div><div class="d" style="color:rgba(255,255,255,.7)">Tuesday evening</div></div>
+      <div class="push" role="group" aria-label="Evening digest notification">
+        <span class="ph"><span class="mk"><svg width="9" height="9" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>SIGNAL<span class="tm">20:30</span></span>
+        <h4>Evening digest — 0 need you</h4>
+        <p>6 handled for you · 7 worth knowing. Nothing is waiting on you.</p>
+        <span class="pa"><button class="go" id="mOpenDig" style="background:var(--primary)">Open digest</button><button class="gh" id="mTmrw">Tomorrow</button></span>
+      </div>
+      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,.65);margin-top:auto">One gentle ping — the day’s noise, batched on her rhythm</p>
+    </div>`;
+    $('#mOpenDig').onclick=()=>{mStage=4;mRender();};
+    $('#mTmrw').onclick=()=>{announce('Digest held until 9:00 tomorrow.');$('#mTmrw').textContent='✓ 9:00 am';};
+  }
+  if(mStage===4){
+    s.innerHTML=`<div class="cardstage">
+      <div style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700"><span style="color:var(--indigo)">● Digest</span><span style="color:var(--ink3);font-weight:500">L6 · 20:30</span></div>
+      <p style="font-family:var(--head);font-weight:800;font-size:17px;margin:8px 0 0">Your evening digest</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px">
+        <div style="background:var(--paper2);border-radius:11px;padding:9px 4px;text-align:center"><div style="font-size:19px;font-weight:700;font-family:var(--head);color:var(--sage)">0</div><div style="font-size:9.5px;color:var(--ink2)">need you</div></div>
+        <div style="background:var(--paper2);border-radius:11px;padding:9px 4px;text-align:center"><div style="font-size:19px;font-weight:700;font-family:var(--head)">6</div><div style="font-size:9.5px;color:var(--ink2)">handled</div></div>
+        <div style="background:var(--paper2);border-radius:11px;padding:9px 4px;text-align:center"><div style="font-size:19px;font-weight:700;font-family:var(--head);color:var(--indigo)">7</div><div style="font-size:9.5px;color:var(--ink2)">worth knowing</div></div>
+      </div>
+      <div style="margin-top:9px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:11px"><span style="height:7px;width:7px;border-radius:50%;background:var(--sage);flex:none"></span>6 low-risk joins auto-approved</div>
+        <div style="display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:11px"><span style="height:7px;width:7px;border-radius:50%;background:var(--indigo);flex:none"></span>Seat usage at 78% of plan</div>
+        <div style="display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:11px"><span style="height:7px;width:7px;border-radius:50%;background:var(--indigo);flex:none"></span>Maintenance Sunday 02:00</div>
+      </div>
+      <p style="font-size:11px;font-weight:600;color:var(--sage);text-align:center;margin:9px 0 0">Nothing needed you today ✓</p>
+      <div style="margin-top:10px;border-radius:14px;padding:11px;background:linear-gradient(150deg,#0C6E7A,#13B5EA);color:#fff" id="mAskWrap">
+        <p style="font-size:11px;font-weight:700;margin:0">✦ Good evening, Mara</p>
+        <button id="mAskChip" style="margin-top:7px;width:100%;text-align:left;font-size:11.5px;color:#fff;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:9px 12px">“Anything for tomorrow?”</button>
+      </div>
+      <button class="reset" id="mBackMorning" style="align-self:center;margin-top:10px;font-size:11.5px">↺ Back to the morning</button>
+    </div>`;
+    $('#mAskChip').onclick=()=>{
+      $('#mAskWrap').innerHTML=`<p style="font-size:11px;font-weight:700;margin:0">✦ Signal</p>
+        <p style="font-size:11.5px;line-height:1.5;margin:6px 0 0">Maintenance Sunday 02:00, and seat usage hits the plan limit ~Aug 9. <b>Nothing urgent — sleep well.</b></p>
+        <p style="font-size:9.5px;opacity:.75;margin:7px 0 0">L8 · copilot, answering from the digest</p>`;
+      announce('Signal: maintenance Sunday, seat limit around August 9. Nothing urgent.');
+    };
+    $('#mBackMorning').onclick=()=>{mStage=0;mHeld=false;mRender();};
+  }
+  const clk=$('#mClock'); if(clk) clk.textContent=mStage>=3?'20:30':'10:02';
 }
 $('#mReset').onclick=()=>{mStage=0;mHeld=false;mRender();};
 

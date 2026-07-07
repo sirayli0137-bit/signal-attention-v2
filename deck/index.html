@@ -32,9 +32,19 @@
 </style>
 </head>
 <body>
+<div id="gate" style="position:fixed;inset:0;background:#0E1A21;z-index:99;display:flex;align-items:center;justify-content:center">
+  <div style="width:min(420px,90vw);background:#fff;border-radius:18px;padding:34px 32px;text-align:center;font-family:Inter,system-ui,sans-serif">
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:#13B5EA"><svg width="22" height="22" viewBox="0 0 13 13"><path d="M6.5.5 7.9 5.1 12.5 6.5 7.9 7.9 6.5 12.5 5.1 7.9.5 6.5 5.1 5.1Z" fill="#fff"/></svg></span>
+    <h2 style="font-family:Figtree,sans-serif;font-weight:800;font-size:22px;margin:16px 0 6px;color:#12232E">Signal — presentation deck</h2>
+    <p style="color:#566773;font-size:14px;margin:0 0 18px">This deck is password-protected.<br>Please use the password shared with the invite.</p>
+    <input id="gpw" type="password" placeholder="Password" autocomplete="off" autofocus style="width:100%;font:inherit;font-size:15px;padding:11px 14px;border:1.5px solid #E1E8EC;border-radius:11px;outline:none;text-align:center;color:#12232E">
+    <button id="ggo" style="width:100%;margin-top:10px;font:inherit;font-size:15px;font-weight:600;padding:11px 14px;border:none;border-radius:11px;background:#13B5EA;color:#fff;cursor:pointer">Open</button>
+    <div id="gerr" style="color:#D93036;font-size:13px;height:18px;margin-top:8px"></div>
+  </div>
+</div>
 <div class="stagewrap"><div class="slide" id="stage"></div></div>
 <div class="hud">
-  <span class="keys">← → navigate · F fullscreen · N notes · B jump past backups · <a href="run-sheet.html" target="_blank" style="color:rgba(255,255,255,.6);pointer-events:auto">run sheet</a> · <a href="talking-points.html" target="_blank" style="color:rgba(255,255,255,.6);pointer-events:auto">talking points</a> · <a href="qa-prep.html" target="_blank" style="color:rgba(255,255,255,.6);pointer-events:auto">Q&amp;A prep</a></span>
+  <span class="keys">← → navigate · F fullscreen · N notes · B jump past backups<span id="prep"> · <a href="run-sheet.html?p=1" target="_blank" style="color:rgba(255,255,255,.6);pointer-events:auto">run sheet</a> · <a href="talking-points.html" target="_blank" style="color:rgba(255,255,255,.6);pointer-events:auto">talking points</a> · <a href="qa-prep.html" target="_blank" style="color:rgba(255,255,255,.6);pointer-events:auto">Q&amp;A prep</a></span></span>
   <span class="count" id="count"></span>
 </div>
 <div class="notes" id="notes"></div>
@@ -77,7 +87,7 @@ const S_PROCESS=`<div class="gen">
 const S_DEMO=`<div class="gen">
   <p class="gt">LIVE DEMO · 4 MINUTES</p>
   <h2 style="font-size:40px;margin-top:8px">${'One system, in her hands'}</h2>
-  <p style="font-size:20px;margin-top:14px;color:var(--ink2)">→ <b style="color:var(--primary)">${URLP}</b></p>
+  <p style="font-size:20px;margin-top:14px;color:var(--ink2)">→ <a href="https://${URLP}" target="_blank" rel="noopener" style="color:var(--primary);font-weight:700;text-decoration:underline">${URLP}</a></p>
   <p style="font-size:15px;color:var(--ink2);margin-top:10px">Following Mara’s journey — the same alert atom, surface by surface:</p>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-top:18px;font-size:16px;line-height:1.5">
     <div><b style="color:var(--primary)">1 · Break-through</b> — 10:02, on site: only the critical reaches her (push/SMS, wherever she is)</div>
@@ -93,7 +103,7 @@ const S_DEMO=`<div class="gen">
 
 const S_CLOSE=`<div class="gen" style="text-align:center;align-items:center">
   <h2 style="font-size:44px;max-width:20ch">${GOLD}</h2>
-  <p style="font-size:17px;color:var(--ink2);margin-top:26px;line-height:1.7">Prototype · <b style="color:var(--primary)">${URLP}</b><br>Process & evidence · MagicPath canvas (47 boards) · Q&A appendix follows</p>
+  <p style="font-size:17px;color:var(--ink2);margin-top:26px;line-height:1.7">Prototype · <a href="https://${URLP}" target="_blank" rel="noopener" style="color:var(--primary);font-weight:700;text-decoration:underline">${URLP}</a><br>Process & evidence · MagicPath canvas (47 boards) · Q&A appendix follows</p>
   <p style="font-size:14px;color:var(--ink3);margin-top:30px">Siray Li — thank you</p>
 </div>`;
 
@@ -154,7 +164,24 @@ function draw(){
   applyFit();
 }
 function go(d){ i=Math.max(0,Math.min(SLIDES.length-1,i+d)); draw(); }
+// password gate (client-side)
+(function(){
+  const HASH='311d96cd0e5a6231365fe2c6acec2563cf878a3e6653c3a77b92de4662863e3b', KEY='sgl-pass';
+  const gate=document.getElementById('gate'), pw=document.getElementById('gpw'), btn=document.getElementById('ggo'), err=document.getElementById('gerr');
+  if(localStorage.getItem(KEY)===HASH){gate.remove();return}
+  const sha=async s=>{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')};
+  const tryPw=async()=>{
+    if(await sha(pw.value.trim())===HASH){localStorage.setItem(KEY,HASH);gate.remove()}
+    else{err.textContent='That’s not it — try again.';pw.select()}
+  };
+  btn.addEventListener('click',e=>{e.stopPropagation();tryPw()});
+  pw.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')tryPw()});
+  gate.addEventListener('click',e=>e.stopPropagation());
+})();
+// presenter-only prep links: add ?p=1 to the deck URL to show them
+if(new URLSearchParams(location.search).get('p')!=='1'){const pr=document.getElementById('prep');if(pr)pr.remove();}
 document.addEventListener('keydown',e=>{
+  if(document.getElementById('gate')||e.target.closest('input'))return;
   if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown') go(1);
   else if(e.key==='ArrowLeft'||e.key==='PageUp') go(-1);
   else if(e.key==='Home'){i=0;draw();}
@@ -165,7 +192,7 @@ document.addEventListener('keydown',e=>{
     const n=SLIDES.findIndex((s,k)=>k>i&&!s.backup); if(n>0){i=n;draw();}
   }
 });
-document.addEventListener('click',e=>{ if(e.clientX>innerWidth/2) go(1); else go(-1); });
+document.addEventListener('click',e=>{ if(document.getElementById('gate')||e.target.closest('a'))return; if(e.clientX>innerWidth/2) go(1); else go(-1); });
 // print mode: render all slides stacked
 if(new URLSearchParams(location.search).has('print')){
   document.querySelector('.stagewrap').innerHTML=SLIDES.map((s,k)=>`<div class="slide">${s.img?`<img src="${s.img}">`:`<div class="fit">${s.html}</div>`}</div>`).join('');

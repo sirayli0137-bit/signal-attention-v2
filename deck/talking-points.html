@@ -30,7 +30,7 @@
 </head>
 <body><div class="wrap">
   <h1>Talking points — slide by slide</h1>
-  <p class="meta">Casual version — this is roughly what you say out loud, not what's on the screen. Pairs with the <a href="run-sheet.html">run sheet</a> (timing) and <a href="qa-prep.html">Q&amp;A prep</a>. Italics = say it close to verbatim. <span class="brd">boards</span> = the MagicPath board the point comes from, so you can pull evidence in Q&amp;A.</p>
+  <p class="meta">Casual version — this is roughly what you say out loud, not what's on the screen. The full run is ~30 minutes; per-beat timing is in the <a href="run-sheet.html">run sheet</a>. Pairs with the <a href="qa-prep.html">Q&amp;A prep</a>. Italics = say it close to verbatim. <span class="brd">boards</span> = the MagicPath board the point comes from, so you can pull evidence in Q&amp;A.</p>
 
   <div class="gold">If you only memorise one line: <span class="say">"Rank by consequence. Deliver by context. Earn trust by showing your work."</span> Open with it, close with it.</div>
 
@@ -41,7 +41,7 @@
 
   <div class="slide"><h2><span class="n">2</span>How I ran it — four AI practices</h2><ul>
     <li><span class="say">"Quick word on process, because the brief asked me to use AI — and I did, heavily. But with structure. Four practices working together."</span></li>
-    <li><b>MASS prompt</b> — the spine: <span class="say">"The core is what I call the MASS prompt — a methodology for using AI to broaden and deepen each divergent and convergent phase, with a human in the loop bringing the critical, creative judgement. One master prompt, six checkpoints. The AI built everything between the gates; at each gate it stopped, and I chose the direction. The gates are where taste comes in — the tacit knowledge the model doesn't have."</span></li>
+    <li><b>MASS prompt</b> — the spine: <span class="say">"The core is what I call the MASS prompt — literally a markdown file sitting at the project level, outlining my design methods with AI. It sends the AI divergent and convergent through the key design activities, and brings me in the loop to check direction. One master prompt, six checkpoints. For example: it ideates wide, then stops for me to score; it builds the prototype, then we audit it together. The gates are where taste comes in — the tacit knowledge the model doesn't have."</span></li>
     <li><b>Context engineering</b>: <span class="say">"Before anything ran, I put the design system and the brief overview in place at the project level — so every single output starts on-brand and on-brief instead of generic. On bigger projects that context can sit even higher — problem-space level, or global."</span></li>
     <li><b>Prompt engineering</b>: <span class="say">"At each step I fed it as much context as I could, mostly by voice — talking is much higher bandwidth than typing, so the AI got the full picture every time."</span></li>
     <li><b>Automated research &amp; evals</b>: <span class="say">"And I chained design-critique skills, MCP integrations like Mobbin and screenshot references so comparative research ran automatically — with quality checked by rubric-based evals. That's the same LLM-as-judge pattern engineering uses to test AI systems, pointed at design — so the output stayed up to standard and aligned with where I was steering."</span></li>
@@ -51,24 +51,29 @@
   <div class="slide"><h2><span class="n">3</span>The frame</h2><ul>
     <li><span class="say">"First decision: where to set this. I picked an admin center — think Atlassian admin or Google Workspace admin — not an accounting product."</span></li>
     <li><span class="say">"Two reasons. Admin notifications are genuinely high-stakes and genuinely noisy — security, billing, access. And honestly, I wasn't going to out-domain your accountants in a week. This way we argue about design, not about tax rules."</span></li>
+    <li>Brief vs steer, worth one line: <span class="say">"That's the shape of the whole project — the brief set the problem, notifications and attention; the setting, the persona, the guardrails were my steer. I'll flag those steers as we go."</span></li>
     <li>If it feels needed: <span class="say">"Everything here ports straight onto Xero's surfaces — the setting is a stand-in, the system isn't."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">4</span>Archetypes</h2><ul>
     <li><span class="say">"Meet Mara. She owns a 40-person studio, she's the admin because someone had to be, and she will never — ever — open a notification settings page."</span></li>
+    <li>Anchor her in three lines: <span class="say">"Her job to be done: 'handle it for me — but keep me in control.' Her mental model: notifications should be a tripwire, not a to-do list. Her need: stay in control without doing config work."</span></li>
     <li><span class="say">"She's the design target. If she can trust this hands-off, then the IT admin and the enterprise team get power on top of her defaults — not a separate product."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">5</span>HEART — how we'd measure it</h2><ul>
-    <li><span class="say">"Success metrics up front, so the design has something to answer to."</span></li>
+    <li><span class="say">"With the business goals, technical constraints and her goals understood, we set success metrics on the HEART framework — up front, so the design has something to answer to."</span></li>
     <li><span class="say">"The unusual one: Retention here means how much she lets the AI carry — does 'handled for you' stay handled, or does she re-check everything? I call it the letting-go metric."</span></li>
-    <li><span class="say">"And trust and transparency isn't a metric alongside the others — it's the gate. If that fails, nothing else matters."</span></li>
+    <li>The concrete trust numbers: <span class="say">"A few I'd watch closely: opt-out rate — when Mara lets the AI act without being asked first, that's trust showing up in the data. One-click resolve rate — can she clear what needs her in a single tap? And the share of routine that's auto-handled. They all feed retention, and retention here is built on trust."</span></li>
+    <li><span class="say">"And next to the numbers, we simply ask her: does this feel transparent? The qualitative sits alongside."</span></li>
+    <li><span class="say">"Because trust and transparency isn't a metric next to the others — it's the gate. If that fails, nothing else matters."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">6</span>Her week — the insight slide</h2><ul>
-    <li>Slow down here; this is the "aha". <span class="say">"We mapped her actual week, and here's the thing: about 90% of it is spent away from the desk. On site, in meetings, at home."</span></li>
-    <li><span class="say">"Which means the interesting design question isn't what the notification says — it's where and when it's allowed to reach her. The channel is the design."</span></li>
-    <li><span class="say">"So: critical breaks through anywhere, even by SMS. Action items get one well-timed push. Routine gets handled or batched into an evening digest. And deep triage waits for the desk."</span></li>
+    <li>Slow down here; this is the "aha". <span class="say">"We mapped her actual week — and this step wouldn't happen from the AI on its own; it's here because my process file demands it."</span></li>
+    <li><span class="say">"Here's the core of it: we assume about 90% of her week is away from the desk — on site, in meetings, at home. So the interesting question isn't what the notification says — it's where and when it's allowed to reach her. The channel itself is a design choice."</span></li>
+    <li>Walk the day, fast: <span class="say">"Commuting or with a client — criticals have to chase her, SMS or push, or she misses them completely. Between jobs — patchy signal, and when she sits on a decision for days, the whole team is blocked on her. Running the business — user adds, product notices; this is where non-critical noise annoys her. Evening wind-down — she wants one calm 'anything before I close the day?', which doesn't exist today. And focused admin time — approvals, security, billing — the only mode traditional admin notifications actually serve."</span></li>
+    <li>Don't read the bottom rows — gesture: <span class="say">"pains and opportunities per mode are detailed down here."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">7</span>Three problems</h2><ul>
@@ -76,33 +81,38 @@
   </ul></div>
 
   <div class="slide"><h2><span class="n">8</span>Five design principles <span class="brd">board 13</span></h2><ul>
-    <li><span class="say">"Before any ideas, I turned her problems into five principles — these are the judges for everything that follows."</span></li>
+    <li><span class="say">"Before any ideas, I turned her problems into five principles. Why bother? Because they're the guardrails for every judgement call downstream — and they travel: the same five can span teams and projects."</span></li>
     <li>Walk them fast, one line each: <span class="say">"Minimal disruption — only what truly needs her breaks through; everything else waits. Effortless efficiency — understand and act in one tap, zero setup. Right moment, right channel — reach her by severity and context, not by the clock. Meaningful control — see, adjust, reverse; control that builds trust, not config work. And transparency earns confidence — always show what the AI did and why."</span></li>
     <li>The shape of it: <span class="say">"Notice the tension — minimal disruption and effortless efficiency pull against each other. Meaningful control is what holds them in balance, and transparency is how it earns the right to."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">9</span>Explored wide ("Everything on the table")</h2><ul>
-    <li>Don't read this slide — gesture at it. <span class="say">"With the principles set, we went wide: 18 ideas, from tiny tweaks to full agentic copilots, each one traced to a real product doing it today."</span></li>
+    <li>Don't read this slide — gesture at it. <span class="say">"After the checkpoint, we went wide: 18 ideas, from tiny tweaks to full agentic copilots. Each one traced to a real problem we're dealing with today, and to a real product already doing it — industry and competitive research, not brainstorm confetti."</span></li>
     <li><span class="say">"The point of the width was to make the narrowing honest."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">10</span>Scored &amp; narrowed</h2><ul>
-    <li><span class="say">"Scored on impact, effort and how well it scales. Two winners for now: the triage brain — deciding what matters — and the router — deciding where it goes."</span></li>
+    <li><span class="say">"Then I had it score everything on impact, effort, and how well it scales. It's a quick framework I put together for judging AI design features — deliberately extensible. Everything sorts into must-haves we do now, should-haves, and nice-to-haves for later."</span></li>
+    <li><span class="say">"The must-haves: the triage brain — deciding what matters — and the router — deciding where it goes."</span></li>
     <li><span class="say">"The copilot scored well too, and I deliberately pushed it later. An assistant you don't trust yet is just another notification. It has to earn its way in."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">11</span>The flow</h2><ul>
-    <li><span class="say">"The end-to-end flow isn't copied from any one competitor — it's a synthesis, and every piece is cited: PagerDuty's routing spine, iOS's digest-by-default, Gmail's single feed."</span></li>
+    <li>Process beat first: <span class="say">"Without a gate here, the natural next move is to start designing screens for each feature. I didn't. I asked the AI to map how the features work together for Mara first — one more check that this is the right solution, before any pixels."</span></li>
+    <li>Walk it in one breath: <span class="say">"An event fires on one of the three jobs. The AI scores severity and impact, and routes it — SMS for criticals, a quieter push for action items, or straight into the digest. Depending on severity and context, Mara acts in one tap, sees the action is already in place, or catches up later in the feed."</span></li>
+    <li><span class="say">"And this flow isn't copied from any one competitor — it's the best of what we scored, pieced together for Mara's case, every piece cited: PagerDuty's routing spine, iOS's digest-by-default, Gmail's single feed."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">12</span>System × channels</h2><ul>
     <li><span class="say">"This grid is the whole product on one slide. Rows are the system — the eight layers. Columns are delivery — app, desktop, SMS, Slack."</span></li>
+    <li>Walk the matrix: <span class="say">"Breakthrough events — push plus SMS when she's on site or away, with revoke right inside it; a gentler push between jobs. Medium priority — an in-app push that opens a rich card explaining the impact, or lands in the 'needs your attention' section. Non-critical — nothing until the overnight digest. At the desk she can opt into the full feed — detail, confirm, activity log, controls, copilot. And email only ever carries the digest."</span></li>
     <li>Physically point at the empty cells: <span class="say">"And look at what's empty. Most of this grid is deliberately silent. The calm isn't an absence of design — it is the design."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">13</span>Mara's future journey — the layers to design <span class="brd">board 10</span></h2><ul>
     <li><span class="say">"Here's her future journey, and it's also the map for the demo. An event fires while she's away — the AI scores and routes it. Critical? It breaks through, wherever she is. She decides and acts on one card — severity, impact, why, one tap. She gets confirmation — 'revoked, user notified', no guessing. Back at the desk she catches up on the triaged feed, checks the activity log to see what the AI did — that's the trust surface — and her day ends with one calm evening summary."</span></li>
-    <li><span class="say">"Each step of that journey is a surface to design — seven now, plus the copilot later. And I'm about to demo it in exactly this order: break-through, native app, desktop, digest."</span></li>
+    <li>The validation point: <span class="say">"That's now three views over the same prioritised features — the flow, the matrix, and her journey. Three views agreeing is how I validated this is the right solution — and it hands me the design list: every step is a surface, each with its flows, layout, patterns and interactions."</span></li>
+    <li><span class="say">"Seven surfaces now, plus the copilot later. And I'm about to demo it in exactly this order: break-through, native app, desktop, digest."</span></li>
   </ul></div>
 
   <div class="slide"><h2><span class="n">14</span>The stack</h2><ul>

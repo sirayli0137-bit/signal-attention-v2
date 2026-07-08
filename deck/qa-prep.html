@@ -40,7 +40,7 @@
     <b>2 · Auditing the auditor.</b> I ran AI design-critique skills against my own AI-built prototype — 17 findings. But I didn’t apply them wholesale: I triaged all 17 myself, accepted the contrast and honesty fixes (secondary buttons were silently dismissing alerts — a trust bug the AI caught), and <b>rejected the suggestions that traded Mara’s calm for feature density</b>. The audit is on the canvas: findings, my verdicts, and the diff between v1 and v1.3.
   </div>
 
-  <h2>Ten anticipated questions</h2>
+  <h2>Thirteen anticipated questions</h2>
 
   <div class="qa"><div class="q"><span class="n">1</span>Why an Admin Center and not Xero’s accounting product?</div>
   <div class="a">Deliberate scope call. Notifications are the brief; accounting depth isn’t — and I’d lose to your own domain experts pretending otherwise. An admin console gives genuinely high-stakes, high-noise notifications (security, billing, access) so we can argue <b>design, not domain</b>. The system — rank by consequence, deliver by context — ports straight onto Xero’s surfaces.</div></div>
@@ -71,6 +71,15 @@
 
   <div class="qa"><div class="q"><span class="n">10</span>What’s the business case?</div>
   <div class="a">Two lines: <b>risk</b> — missed criticals are churn-grade events (a breach or a failed payroll run costs the account), and Signal cuts time-to-action on those to 90 seconds; <b>cost</b> — admin attention is the scarcest seat in an SME, and ↓62% interruptions is retention for the whole workspace, not a nicety. Trust metrics (undo rate, re-open rate) are the leading indicators.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">11</span>How would this AI workflow scale inside Xero?</div>
+  <div class="a">Here my context layer was a design brief plus a visual system. Inside Xero it becomes industrial: the <b>coded design system plus Code Connect</b> mapping Figma components to their code counterparts — so the AI <b>describes components instead of inventing them</b> — and prototypes are built from real components on a protected route in the real app, shared as draft-PR preview links stakeholders just click. Same process, same gates; the context gets richer, and handoff mostly disappears.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">12</span>Why didn’t you test with AI / synthetic users?</div>
+  <div class="a">I used AI personas as <b>design lenses, not as research</b>. The evidence on synthetic users is that they’re cheerleaders — they validate every concept where real users raise barriers, and they collapse into stereotypes. You can’t validate a synthetic user without doing the real research anyway. That’s exactly why my next step is real admins, and why the trust gate — do people actually let go? — only gets measured with humans.</div></div>
+
+  <div class="qa"><div class="q"><span class="n">13</span>How would you make this process even faster / more efficient?</div>
+  <div class="a">Three moves. <b>Parallelise the divergence</b> — independent agents run the research and critique lenses concurrently instead of serially; I did a version of this in the audit, where several critique skills ran as separate passes. <b>Make the evals standing</b> — the audit rubric becomes a gate that runs on every iteration, not a one-time review. And <b>treat the MASS prompt as an asset</b> — it’s versioned and reusable, so the next project starts with the whole process installed on day zero.</div></div>
 
 </div></body>
 </html>

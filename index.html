@@ -291,7 +291,6 @@
       <div class="split" id="feedSplit">
         <aside class="rail" aria-label="Notification list">
           <div class="chips" id="catChips" role="group" aria-label="Filter by domain"></div>
-          <div class="tierhead"><span class="bar" style="background:var(--critical)"></span><b>Needs you now</b><span class="n tnum" id="railCount">3</span></div>
           <div id="railItems"></div>
           <p style="font-size:11px;color:var(--ink3);margin-top:12px">Only critical · high · medium land here. Everything else waits in the <b>Digest</b>.</p>
         </aside>
@@ -505,18 +504,27 @@ function renderChips(){
 function renderRail(){
   const wrap=$('#railItems'); wrap.innerHTML='';
   const vis=visibleItems();
-  vis.forEach(n=>{
-    const done=state.resolved[n.id];
-    const b=document.createElement('button');
-    b.className='item'+(state.sel===n.id?' sel':'')+(done?' done':'');
-    b.setAttribute('aria-label',`${n.sev} — ${n.title}`);
-    if(state.sel===n.id) b.setAttribute('aria-current','true');
-    b.innerHTML=`<span class="meta"><span class="dot" style="background:${n.tone}"></span><span style="color:${n.tone};font-weight:600">${n.sev}</span><span style="color:var(--ink3)">· ${n.cat}</span>${done?'<span class="donetag" style="margin-left:auto">✓ done</span>':''}</span><h4>${esc(n.title)}</h4>`;
-    b.onclick=()=>{state.sel=n.id;render();};
-    wrap.appendChild(b);
+  ['Critical','High','Medium'].forEach((sev,gi)=>{
+    const grp=vis.filter(n=>n.sev===sev);
+    if(!grp.length) return;
+    const tone=sev==='Critical'?'var(--critical)':sev==='High'?'var(--amber)':'var(--indigo)';
+    const head=document.createElement('div');
+    head.className='tierhead';
+    if(wrap.children.length) head.style.marginTop='14px';
+    head.innerHTML=`<span class="bar" style="background:${tone}"></span><b>${sev}</b><span class="n tnum">${grp.filter(n=>!state.resolved[n.id]).length}</span>`;
+    wrap.appendChild(head);
+    grp.forEach(n=>{
+      const done=state.resolved[n.id];
+      const b=document.createElement('button');
+      b.className='item'+(state.sel===n.id?' sel':'')+(done?' done':'');
+      b.setAttribute('aria-label',`${n.sev} — ${n.title}`);
+      if(state.sel===n.id) b.setAttribute('aria-current','true');
+      b.innerHTML=`<span class="meta"><span class="dot" style="background:${n.tone}"></span><span style="color:var(--ink3)">${n.cat}</span>${done?'<span class="donetag" style="margin-left:auto">✓ done</span>':''}</span><h4>${esc(n.title)}</h4>`;
+      b.onclick=()=>{state.sel=n.id;render();};
+      wrap.appendChild(b);
+    });
   });
   const open=vis.filter(n=>!state.resolved[n.id]).length;
-  $('#railCount').textContent=open;
   $('#needCount').textContent=open;
   $('#needCount').style.display=open?'inline':'none';
   $('#handledCount').textContent=state.handled+Object.keys(state.resolved).length;
